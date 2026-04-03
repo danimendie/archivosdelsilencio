@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Los Archivos del Silencio — Vol. 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #000000;
+      --bg-deep: #0a0a0a;
+      --bg-header: #0a0a0a;
+      --text-primary: #c8c8c8;
+      --text-bright: #ffffff;
+      --text-secondary: #888888;
+      --text-muted: #a82020;
+      --accent: #a82020;
+      --accent-light: #c43030;
+      --timer: #c43030;
+      --card-bg: #0a0a0a;
+      --border: #1a1a1a;
+      --hover: #a82020;
+      --scanlines: rgba(200, 200, 200, 0.015);
+      --font-display: 'Spectral', serif;
+      --font-body: 'Spectral', serif;
+      --font-mono: 'Courier Prime', monospace;
+      --font-btn: 'Spectral', serif;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .hero .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero .book-cover {
+      width: 220px;
+      height: auto;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      display: block;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    @media (max-width: 640px) {
+      .hero .book-cover {
+        width: 180px;
+        margin-bottom: 1.25rem;
+      }
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--text-bright);
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    .hero-volume {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.3em;
+      margin-top: 4px;
+    }
+
+    .hero-intrigue {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 400px;
+      line-height: 1.6;
+      margin: 16px 0 24px 0;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 28px;
+      border: 1px solid var(--accent);
+      color: var(--text-primary);
+      font-family: var(--font-btn);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .hero-cta:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .hero-cta:focus {
+      outline: 1px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Scanlines overlay - cold gray, barely visible */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(200, 200, 200, 0.015) 2px,
+        rgba(200, 200, 200, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before {
+        animation: none !important;
+      }
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* CONTEXT SECTIONS */
+
+    /* Section A: Notification - terminal style */
+    .notification-section {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 24px;
+      margin-bottom: 40px;
+    }
+
+    .notification-header {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notification-content {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+      white-space: pre-line;
+    }
+
+    .notification-content p {
+      margin-bottom: 12px;
+    }
+
+    .notification-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .notification-btn {
+      display: block;
+      margin-top: 24px;
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--text-primary);
+      font-family: var(--font-btn);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .notification-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* Section B: Narrative - elegant typography */
+    .narrative-section {
+      padding: 40px 0;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .narrative-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      color: var(--text-bright);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+
+    .narrative-content {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+
+    .narrative-content p {
+      margin-bottom: 16px;
+    }
+
+    .narrative-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Section C: Session - timer explanation */
+    .session-section {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      padding: 32px 24px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .session-header {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
+    }
+
+    .session-content {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .session-content p {
+      margin-bottom: 10px;
+    }
+
+    .session-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .session-timer {
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--timer);
+      margin: 24px 0;
+      letter-spacing: 0.1em;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-title {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .header-meta {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .timer {
+      font-family: var(--font-body);
+      color: var(--timer);
+      font-weight: 500;
+    }
+
+    .timer.expired {
+      animation: timerPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes timerPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      padding: 24px 0;
+      min-height: calc(100vh - 200px);
+    }
+
+    /* Document List */
+    .doc-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .doc-list-header {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .doc-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .doc-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .doc-link:hover {
+      color: var(--hover);
+    }
+
+    .doc-link:focus {
+      outline: 1px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .doc-link.explored::after {
+      content: '[·]';
+      margin-left: 8px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .doc-link.active {
+      color: var(--text-bright);
+    }
+
+    .doc-link.active::before {
+      content: '>';
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    .doc-link.locked {
+      color: var(--text-muted);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .doc-id {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      margin-right: 12px;
+    }
+
+    .doc-title {
+      flex: 1;
+      font-family: var(--font-body);
+    }
+
+    .doc-date {
+      font-family: var(--font-body);
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+    }
+
+    /* Document Viewer */
+    .viewer {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 24px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .viewer.open {
+      display: block;
+    }
+
+    .viewer-header {
+      margin-bottom: 20px;
+    }
+
+    .viewer-id {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .viewer-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .viewer-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .viewer-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .viewer-content {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+
+    .viewer-content p {
+      margin-bottom: 1.2em;
+      text-align: justify;
+    }
+
+    .viewer-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .viewer-continue {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 20px;
+      font-style: italic;
+    }
+
+    .viewer-close {
+      display: block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .viewer-close:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .viewer-close:focus {
+      outline: 1px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Access Prompt */
+    .access-prompt {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .access-prompt.visible {
+      display: block;
+    }
+
+    .access-prompt-id {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .access-prompt-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .access-prompt-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 16px 0;
+    }
+
+    .access-prompt-content {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .access-prompt-content p {
+      margin-bottom: 8px;
+    }
+
+    .access-prompt-price {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .access-prompt-format {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .access-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--accent);
+      border: none;
+      color: var(--bg);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .access-btn:hover {
+      opacity: 0.85;
+    }
+
+    .access-btn:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Session Expired */
+    .expired-message {
+      background: var(--bg-deep);
+      border: 1px solid var(--accent);
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .expired-message.visible {
+      display: block;
+    }
+
+    .expired-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--timer);
+      margin-bottom: 16px;
+      letter-spacing: 0.1em;
+    }
+
+    .expired-text {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* SALES SECTIONS */
+    .sales-section {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 24px;
+      margin-bottom: 40px;
+    }
+
+    .sales-section-header {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* EL ARCHIVO COMPLETO */
+    .archivo-lista {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+    }
+
+    .archivo-lista-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .archivo-lista-item:last-child {
+      border-bottom: none;
+    }
+
+    .archivo-lista-item.highlight {
+      background: rgba(139, 0, 0, 0.1);
+      color: var(--text-bright);
+    }
+
+    .archivo-lista-label {
+      color: var(--text-primary);
+    }
+
+    .archivo-lista-value {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+
+    .archivo-lista-item.highlight .archivo-lista-value {
+      color: var(--text-bright);
+    }
+
+    .archivo-meta {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 16px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* POR QUÉ ESTE ARCHIVO */
+    .porque-content {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      line-height: 2;
+      color: var(--text-primary);
+      font-style: italic;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .porque-content p {
+      margin-bottom: 8px;
+    }
+
+    .porque-content p:last-child {
+      color: var(--text-bright);
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+
+    /* TESTIMONIALES / RESEÑAS */
+    .reseña {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 16px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+    }
+
+    .reseña:last-child {
+      margin-bottom: 0;
+    }
+
+    .reseña-id {
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-size: 0.7rem;
+    }
+
+    .reseña-texto {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      white-space: pre-line;
+    }
+
+    .reseña-autor {
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+    }
+
+    /* PRECIO */
+    .precio-section {
+      text-align: center;
+      padding: 40px 24px;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      background: var(--bg-deep);
+    }
+
+    .precio-amount {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .precio-currency {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    .precio-format {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .precio-instant {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .precio-original {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .precio-discount {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--timer);
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      width: 100%;
+      max-width: 320px;
+      padding: 18px 32px;
+      background: var(--accent);
+      border: none;
+      color: var(--bg);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: opacity 0.15s;
+    }
+
+    .cta-btn:hover {
+      opacity: 0.85;
+    }
+
+    .cta-btn:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* GARANTÍA */
+    .garantia-section {
+      text-align: center;
+      padding: 20px 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      background: var(--bg-deep);
+    }
+
+    .garantia-header {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .garantia-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .garantia-icon::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 6px;
+      height: 5px;
+      border-top: 1px solid var(--accent);
+      border-left: 1px solid var(--accent);
+      border-right: 1px solid var(--accent);
+    }
+
+    .garantia-icon::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 2px;
+      width: 8px;
+      height: 4px;
+      background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+    }
+
+    .garantia-content {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .garantia-content p {
+      margin-bottom: 4px;
+    }
+
+    .garantia-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .hotmart-logo {
+      display: block;
+      margin: 0 auto 16px auto;
+      height: 32px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+
+    .hotmart-logo-fallback {
+      display: block;
+      margin: 0 auto 16px auto;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 0.2em;
+      opacity: 0.6;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      margin-top: 40px;
+    }
+
+    .footer-text {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* Typewriter cursor */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--text-primary);
+      margin-left: 2px;
+      animation: blink 0.8s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .typewriter-cursor {
+        animation: none;
+        opacity: 1;
+      }
+    }
+
+    /* No JS fallback */
+    .no-js-message {
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 12px;
+      }
+
+      .header {
+        padding: 16px 0;
+      }
+
+      .header-title {
+        font-size: 0.65rem;
+      }
+
+      .notification-section,
+      .session-section {
+        padding: 24px 16px;
+      }
+
+      .doc-link {
+        font-size: 0.75rem;
+        padding: 12px 0;
+      }
+
+      .viewer {
+        padding: 16px;
+      }
+
+      .viewer-title {
+        font-size: 1rem;
+      }
+
+      .viewer-content {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <img 
+        src="PORTADA LOS ARCHIVOS DEL SILENCIO VOL 1.png" 
+        alt="Los Archivos del Silencio Vol. 1 — Cover" 
+        class="book-cover"
+      >
+      <p class="hero-subtitle">Testimonios vedados al público</p>
+      <h1 class="hero-title">LOS ARCHIVOS<br>DEL SILENCIO</h1>
+      <p class="hero-volume">VOL. 1</p>
+      <p class="hero-intrigue">Siete hermanas. Una celda sellada. Un archivo que no debías encontrar.</p>
+      <a href="#notification" class="hero-cta">[EXPLORAR LOS ARCHIVOS]</a>
+    </div>
+  </section>
+
+  <!-- SECTION A: NOTIFICACIÓN -->
+  <section class="notification-section" id="notification">
+    <div class="container">
+      <div class="notification-header">SISTEMA DE ARCHIVOS — NOTIFICACIÓN</div>
+      <div class="notification-content">Este archivo contiene testimonios recogido por 
+el padre Sebastián Aguirre, capellán del convento 
+de dominicas de la Santa Cruz, en Castila.
+
+Los documentos fueron hallados en 1952, durante 
+la restauración del ala este del convento.
+
+Este archivo no es público.</div>
+      <button class="notification-btn" id="notificationBtn">[ENTENDIDO]</button>
+    </div>
+  </section>
+
+  <!-- SECTION B: SIETE TESTIMONIOS -->
+  <section class="narrative-section" id="testimonios">
+    <div class="container">
+      <h2 class="narrative-title">SIETE TESTIMONIOS</h2>
+      <div class="narrative-content">
+        <p>Todo comenzó con una celda que no debía estar ahí. La celda 19, en el corredor este del convento, cerrada desde 1898.</p>
+        <p>Siete hermanas pasaron por ese lugar. Ninguna salió.</p>
+        <p>Este archivo recoje sus testimonios. O lo que queda de ellos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION C: TU SESIÓN -->
+  <section class="session-section" id="sesion">
+    <div class="container">
+      <div class="session-header">SESIÓN ACTIVA</div>
+      <div class="session-content">
+        <p>Tienes 15 minutos para explorar los archivos.</p>
+        <p>Abre los documentos que quieras. Lee lo que encuentres.</p>
+        <p>Cuando el tiempo expire, el archivo se cerrará.</p>
+      </div>
+      <div class="session-timer" id="sessionTimerDisplay">[15:00]</div>
+    </div>
+  </section>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-title">SISTEMA DE ARCHIVOS — ACCESO RESTRINGIDO</div>
+      <div class="header-meta">
+        <span>Log 001 · Sesión activa</span>
+        <span id="timer" class="timer" aria-live="polite">[ARCHIVO SE CIERRA EN 15:00]</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <noscript>
+        <div class="no-js-message">
+          Este archivo requiere JavaScript para su acceso.<br>
+          Habilite JavaScript en su navegador para continuar.
+        </div>
+      </noscript>
+
+      <div class="doc-list-header">DOCUMENTOS DISPONIBLES</div>
+      <ul class="doc-list" id="docList" role="list">
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-01" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-01: Hermanas de la Vega">
+            <span class="doc-id">[DOC-1947-01]</span>
+            <span class="doc-title">Hermanas de la Vega</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-02" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-02: La celda 19">
+            <span class="doc-id">[DOC-1947-02]</span>
+            <span class="doc-title">La celda 19</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-03" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-03: Fray Domingo de la Trinidad">
+            <span class="doc-id">[DOC-1947-03]</span>
+            <span class="doc-title">Fray Domingo de la Trinidad</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-04" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-04: Las trece velas">
+            <span class="doc-id">[DOC-1947-04]</span>
+            <span class="doc-title">Las trece velas</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-05" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-05: El libro rojo">
+            <span class="doc-id">[DOC-1947-05]</span>
+            <span class="doc-title">El libro rojo</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-06" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-06: La biblioteca">
+            <span class="doc-id">[DOC-1947-06]</span>
+            <span class="doc-title">La biblioteca</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+        <li class="doc-item">
+          <a href="#" class="doc-link" data-doc="DOC-1947-07" role="button" tabindex="0" aria-label="Abrir documento DOC-1947-07: La llave de la celda 19">
+            <span class="doc-id">[DOC-1947-07]</span>
+            <span class="doc-title">La llave de la celda 19</span>
+            <span class="doc-date">1947</span>
+          </a>
+        </li>
+      </ul>
+
+      <section class="expired-message" id="expiredMessage" aria-live="polite">
+        <div class="expired-title">SESIÓN EXPIRADA</div>
+        <div class="expired-text">
+          El archivo se ha cerrado por inactividad.<br>
+          Si deseas acceder al archivo completo:
+        </div>
+        <a href="#" class="access-btn">[COMPRAR AHORA — USD 5.90]</a>
+      </section>
+
+      <section class="viewer" id="viewer" aria-live="polite">
+        <header class="viewer-header">
+          <div class="viewer-id" id="viewerId"></div>
+          <div class="viewer-title" id="viewerTitle"></div>
+          <div class="viewer-subtitle" id="viewerSubtitle"></div>
+        </header>
+        <hr class="viewer-divider">
+        <div class="viewer-content" id="viewerContent"></div>
+        <div class="viewer-continue" id="viewerContinue"></div>
+        <button class="viewer-close" id="viewerClose" aria-label="Cerrar documento">[CERRAR]</button>
+      </section>
+
+      <section class="access-prompt" id="accessPrompt" aria-live="polite">
+        <div class="access-prompt-id">[DOC-ACCESO]</div>
+        <div class="access-prompt-title">ACCESO AL ARCHIVO COMPLETO</div>
+        <hr class="access-prompt-divider">
+        <div class="access-prompt-content">
+          <p>7 testimonios completos</p>
+          <p>1 documento extra</p>
+          <p>EPUB + PDF</p>
+        </div>
+        <div class="access-prompt-format">USD 5.90</div>
+        <div class="access-prompt-price">5.90 USD</div>
+        <a href="#" class="access-btn">[ACCEDER AL ARCHIVO COMPLETO]</a>
+      </section>
+
+      <!-- SALES SECTION: EL ARCHIVO COMPLETO -->
+      <section class="sales-section" id="archivo-completo">
+        <div class="sales-section-header">EL ARCHIVO COMPLETO</div>
+        <div class="archivo-lista">
+          <div class="archivo-lista-item">
+            <span class="archivo-lista-label">7 TESTIMONIOS COMPLETOS</span>
+          </div>
+          <div class="archivo-lista-item">
+            <span class="archivo-lista-label">+ 1 DOCUMENTO EXTRA</span>
+          </div>
+          <div class="archivo-lista-item">
+            <span class="archivo-lista-label">+ NOTA DEL EDITOR</span>
+          </div>
+          <div class="archivo-lista-item highlight">
+            <span class="archivo-lista-label">EPUB + PDF</span>
+            <span class="archivo-lista-value">Incluidos</span>
+          </div>
+          <div class="archivo-lista-item">
+            <span class="archivo-lista-label">~45,000 palabras</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SALES SECTION: POR QUÉ ESTE ARCHIVO -->
+      <section class="sales-section" id="porque">
+        <div class="sales-section-header">POR QUÉ ESTE ARCHIVO</div>
+        <div class="porque-content">
+          <p>No es un libro más.</p>
+          <p>Es un documento que no debías leer.</p>
+          <p>Un archivo que alguien quiso destruir.</p>
+          <p>Un silencio que alguien quiso guardar.</p>
+          <p>Esto no se olvida.</p>
+        </div>
+      </section>
+
+      <!-- SALES SECTION: LOS QUE LO HAN LEÍDO -->
+      <section class="sales-section" id="resenas">
+        <div class="sales-section-header">LOS QUE LO HAN LEÍDO</div>
+        
+        <div class="reseña">
+          <div class="reseña-id">[DOC-RESEÑA-01]</div>
+          <div class="reseña-texto">"No pude dormir durante tres días.
+Y no es una frase hecha."</div>
+          <div class="reseña-autor">— Lector en Buenos Aires</div>
+        </div>
+
+        <div class="reseña">
+          <div class="reseña-id">[DOC-RESEÑA-02]</div>
+          <div class="reseña-texto">"Nadie me había perturbado así desde
+ElProyecto Outis. Qué inquietante."</div>
+          <div class="reseña-autor">— Reseña en comunidad de lectores</div>
+        </div>
+
+        <div class="reseña">
+          <div class="reseña-id">[DOC-RESEÑA-03]</div>
+          <div class="reseña-texto">"Tengo que volver a leerlo. No porque quiera.
+Porque necesito."</div>
+          <div class="reseña-autor">— Comentario en foro de ficción oscura</div>
+        </div>
+      </section>
+
+      <!-- SALES SECTION: PRECIO -->
+      <section class="precio-section" id="precio">
+        <div class="precio-original">USD 11.80</div>
+        <div class="precio-amount"><span class="precio-currency">USD</span> 5.90</div>
+        <div class="precio-format">EPUB + PDF</div>
+        <div class="precio-discount">50% OFF — LANZAMIENTO</div>
+        <div class="precio-instant">Acceso inmediato</div>
+        <a href="#" class="cta-btn">[OBTENER EL ARCHIVO COMPLETO]</a>
+      </section>
+
+      <!-- GARANTÍA -->
+      <section class="garantia-section" id="garantia">
+        <img 
+          src="https://hotmart.com/static/app-hotmart-next/images/footer/footer__hotmart-company.webp" 
+          alt="Hotmart" 
+          class="hotmart-logo"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        >
+        <span class="hotmart-logo-fallback" style="display: none;">[HOTMART]</span>
+        <div class="garantia-header">
+          <span class="garantia-icon"></span>
+          COMPRA SEGURA
+          <span class="garantia-icon"></span>
+        </div>
+        <div class="garantia-content">
+          <p>Tu compra está protegida por Hotmart.</p>
+          <p>Procesamos pagos de forma segura.</p>
+          <p>Garantía de reembolso de 7 días.</p>
+          <p>Sin preguntas.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        Los documentos presentados en este archivo son fragmentos<br>
+        de una obra de ficción. Los nombres han sido alterados.<br>
+        Archivo intervenido por discreción editorial.<br><br>
+        Compra procesada de forma segura a través de Hotmart.<br>
+        Garantía de reembolso de 7 días.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // Document data with excerpts
+      const documents = {
+        'DOC-1947-01': {
+          id: 'DOC-1947-01',
+          title: 'Hermanas de la Vega',
+          subtitle: 'Testimonio I',
+          date: '1947',
+          excerpt: [
+            'Hay una sister en la celda 19. Lleva allí al menos desde 1898, posiblemente desde antes. No tiene nombre en el registro de la comunidad. No ha hecho votos. No existe en ningún documento oficial.',
+            'Y sin embargo, existe. Porque cada trece noches, la celda 19 se ilumina desde dentro. Una luz blanca, fría, sin fuente visible, que dura desde las doce hasta las cuatro de la madrugada. Cuando se apaga, el silencio de la casa se vuelve más profundo.'
+          ]
+        },
+        'DOC-1947-02': {
+          id: 'DOC-1947-02',
+          title: 'La celda 19',
+          subtitle: 'Testimonio II',
+          date: '1947',
+          excerpt: [
+            'La hermana de la celda 19 ha dicho las mismas cinco frases durante treinta y un años, siempre en el mismo orden: «No he pecado todavía.» «Pero he sido pecado.» «¿Es lo mismo?» «No tengo nada. Pero tengo todo. Y no sé cuál de las dos cosas es peor.»',
+            'Hay algo en esa voz que yo no había notado antes: suena como si la mujer que habla hubiera dejado de distinguir entre ella misma y otra cosa. Como si el borde entre la hermana y lo que la rodeaba se hubiera difuminado.'
+          ]
+        },
+        'DOC-1947-03': {
+          id: 'DOC-1947-03',
+          title: 'Fray Domingo de la Trinidad',
+          subtitle: 'Testimonio III',
+          date: '1947',
+          excerpt: [
+            'El 3 de marzo de 1943, durante la oración de la tarde, sor Magdalena de la Cruz abrió los ojos de golpe, como si le hubieran echado agua fría. Y habló: «No está en el registro. Pero está aquí. Siempre ha estado aquí. La casa es suya. nosotras solo estamos de paso.»',
+            'Y entonces sor Magdalena se calló. Volvió a cerrar los ojos. Volvió a empezar a rezar el rosario desde el principio, como si no hubiera hablado.'
+          ]
+        },
+        'DOC-1947-04': {
+          id: 'DOC-1947-04',
+          title: 'Las trece velas',
+          subtitle: 'Testimonio IV',
+          date: '1947',
+          excerpt: [
+            'Hay un documento que registra la existencia previa de al menos dos sisters en celdas similares, una en la década de 1840 y otra en la de 1860. Ambas fueron removidas en circunstancias que el documento describe como «traslado al lugar adecuado».',
+            'La quinta entrada del archivo está en blanco. La nota al margen dice: «Esta entrada no se completa hasta que la causa esté clara. La causa no está clara. No estará clara hasta que llegue el momento. El momento no ha llegado todavía.»'
+          ]
+        },
+        'DOC-1947-05': {
+          id: 'DOC-1947-05',
+          title: 'El libro rojo',
+          subtitle: 'Testimonio V',
+          date: '1947',
+          excerpt: [
+            'Hay una sexta entrada en el libro rojo, escrita con tinta fresca: «1932. [nombre en blanco]. [edad en blanco]. [causa en blanco]. [duración en blanco]. En observancia.» La última entrada está sin completar.',
+            'Hay una nota marginal: «El caso de 1898 es diferente. La hermana no tiene visión. Tiene algo peor: tiene conocimiento. Y el conocimiento que tiene no es de esta época. Es de lo que viene. Por eso no puede ser nombrada. Por eso no puede morir. Tiene que quedarse aquí hasta que llegue el momento.» Y debajo, con otra caligrafía: «Todavía no.»'
+          ]
+        },
+        'DOC-1947-06': {
+          id: 'DOC-1947-06',
+          title: 'La biblioteca',
+          subtitle: 'Testimonio VI',
+          date: '1947',
+          excerpt: [
+            'Había un libro que no estaba en el inventario. Un libro encuadernado en cuero negro, sin título en el lomo. Era el libro de fray Prudencio. El libro de los nombres. El que tiene cinco nombres y un espacio vacío.',
+            'La entrada más reciente dice: «La mujer en la celda 19 ha comenzado a hablar con una voz que no es la suya. Esa voz dice nombres de los que han de venir. Y no son nombres de personas. Son nombres de lugares. Y nombres de tiempos. Y nombres de cosas que aún no han sucedido.»'
+          ]
+        },
+        'DOC-1947-07': {
+          id: 'DOC-1947-07',
+          title: 'La llave de la celda 19',
+          subtitle: 'Testimonio VII',
+          date: '1947',
+          excerpt: [
+            'Todo empezó en 1898. La celda 19 no es una celda. Lo que hay en la celda 19 es una puerta. Una puerta que fue sellada en 1487, que nunca debió abrirse, pero que se abrió.',
+            'Lo que sale de esa puerta, los documentos de esta casa lo llaman «continuatio». Una forma de existir más allá del tiempo que le corresponde a uno. La hermana de la celda 19 interactuó con eso. Y quedó enganchada. Cuando una queda en un limbo, no puede salir.'
+          ]
+        }
+      };
+
+      // State
+      const TIMER_DURATION = 15 * 60; // 15 minutes in seconds
+      const DOCS_FOR_PROMPT = 2;
+
+      let state = {
+        docsExplorados: [],
+        docAbierto: null,
+        timerStart: null,
+        timerRemaining: TIMER_DURATION,
+        sesionActiva: true,
+        timerInterval: null,
+        prefersReducedMotion: false,
+        timerStartedFromSession: false
+      };
+
+      // DOM Elements
+      const timerEl = document.getElementById('timer');
+      const sessionTimerDisplayEl = document.getElementById('sessionTimerDisplay');
+      const docListEl = document.getElementById('docList');
+      const viewerEl = document.getElementById('viewer');
+      const viewerIdEl = document.getElementById('viewerId');
+      const viewerTitleEl = document.getElementById('viewerTitle');
+      const viewerSubtitleEl = document.getElementById('viewerSubtitle');
+      const viewerContentEl = document.getElementById('viewerContent');
+      const viewerContinueEl = document.getElementById('viewerContinue');
+      const viewerCloseEl = document.getElementById('viewerClose');
+      const accessPromptEl = document.getElementById('accessPrompt');
+      const expiredMessageEl = document.getElementById('expiredMessage');
+      const docLinks = document.querySelectorAll('.doc-link');
+      const notificationBtn = document.getElementById('notificationBtn');
+
+      // Check for reduced motion preference
+      state.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Initialize
+      function init() {
+        loadState();
+        setupEventListeners();
+        updateUI();
+        updateSessionTimerDisplay();
+
+        // Start timer from page load since session section is immediately visible
+        if (state.sesionActiva && !state.timerStart) {
+          resetTimer();
+        } else if (state.sesionActiva && state.timerStart) {
+          startTimer();
+        } else if (!state.sesionActiva) {
+          showExpiredState();
+        }
+      }
+
+      // Load state from sessionStorage
+      function loadState() {
+        try {
+          const stored = sessionStorage.getItem('archivoState');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            state.docsExplorados = parsed.docsExplorados || [];
+            state.docAbierto = parsed.docAbierto || null;
+            state.sesionActiva = parsed.sesionActiva !== false;
+
+            if (parsed.timerStart && state.sesionActiva) {
+              state.timerStart = parsed.timerStart;
+              const elapsed = Math.floor((Date.now() - state.timerStart) / 1000);
+              state.timerRemaining = Math.max(0, TIMER_DURATION - elapsed);
+
+              if (state.timerRemaining <= 0) {
+                state.sesionActiva = false;
+                state.timerRemaining = 0;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Could not load state from sessionStorage');
+        }
+      }
+
+      // Save state to sessionStorage
+      function saveState() {
+        try {
+          const toStore = {
+            docsExplorados: state.docsExplorados,
+            docAbierto: state.docAbierto,
+            sesionActiva: state.sesionActiva,
+            timerStart: state.timerStart
+          };
+          sessionStorage.setItem('archivoState', JSON.stringify(toStore));
+        } catch (e) {
+          console.warn('Could not save state to sessionStorage');
+        }
+      }
+
+      // Setup event listeners
+      function setupEventListeners() {
+        docLinks.forEach(link => {
+          link.addEventListener('click', handleDocClick);
+          link.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleDocClick(e);
+            }
+          });
+        });
+
+        viewerCloseEl.addEventListener('click', closeViewer);
+
+        notificationBtn.addEventListener('click', () => {
+          document.getElementById('testimonios').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Listen for reduced motion changes
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+          state.prefersReducedMotion = e.matches;
+        });
+      }
+
+      // Handle document click
+      function handleDocClick(e) {
+        e.preventDefault();
+
+        if (!state.sesionActiva) return;
+
+        const link = e.currentTarget;
+        const docId = link.dataset.doc;
+
+        // Open document
+        openDocument(docId);
+
+        // Reset timer
+        resetTimer();
+
+        // Mark as explored
+        if (!state.docsExplorados.includes(docId)) {
+          state.docsExplorados.push(docId);
+          saveState();
+        }
+      }
+
+      // Open document in viewer
+      function openDocument(docId) {
+        const doc = documents[docId];
+        if (!doc) return;
+
+        // Close any currently open viewer first
+        if (state.docAbierto && state.docAbierto !== docId) {
+          closeViewer(false); // false = don't save state yet
+        }
+
+        state.docAbierto = docId;
+        saveState();
+
+        // Find the clicked doc's li element
+        const clickedLink = document.querySelector(`.doc-link[data-doc="${docId}"]`);
+        const docItem = clickedLink ? clickedLink.closest('li.doc-item') : null;
+
+        // Move viewer to be directly after the clicked doc item
+        if (docItem && docItem.parentNode) {
+          // First move viewer to be in the doc list, right after this item
+          docItem.parentNode.insertBefore(viewerEl, docItem.nextSibling);
+        }
+
+        // Update viewer content
+        viewerIdEl.textContent = doc.id;
+        viewerTitleEl.textContent = doc.title;
+        viewerSubtitleEl.textContent = doc.subtitle;
+        viewerContentEl.innerHTML = '';
+        viewerContinueEl.textContent = '[continúa...]';
+
+        // Show viewer
+        viewerEl.classList.add('open');
+
+        // Scroll the clicked link into view if needed
+        if (clickedLink) {
+          clickedLink.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Typewriter effect for content
+        if (state.prefersReducedMotion) {
+          // Skip animation
+          doc.excerpt.forEach(para => {
+            const p = document.createElement('p');
+            p.textContent = para;
+            viewerContentEl.appendChild(p);
+          });
+        } else {
+          typewriterEffect(doc.excerpt);
+        }
+
+        updateUI();
+      }
+
+      // Typewriter effect
+      function typewriterEffect(paragraphs) {
+        let currentPara = 0;
+        let currentChar = 0;
+        let currentP = null;
+
+        function type() {
+          if (currentPara >= paragraphs.length) {
+            return;
+          }
+
+          const para = paragraphs[currentPara];
+
+          if (!currentP) {
+            currentP = document.createElement('p');
+            viewerContentEl.appendChild(currentP);
+          }
+
+          if (currentChar < para.length) {
+            currentP.textContent += para[currentChar];
+            currentChar++;
+            setTimeout(type, 20);
+          } else {
+            currentPara++;
+            currentChar = 0;
+            currentP = null;
+            setTimeout(type, 100);
+          }
+        }
+
+        type();
+      }
+
+      // Close viewer
+      function closeViewer(shouldSave = true) {
+        viewerEl.classList.remove('open');
+
+        // Move viewer back to its original position (before access-prompt)
+        const mainContainer = document.querySelector('.main .container');
+        const accessPrompt = document.getElementById('accessPrompt');
+        if (mainContainer && accessPrompt) {
+          mainContainer.insertBefore(viewerEl, accessPrompt);
+        }
+
+        state.docAbierto = null;
+        if (shouldSave) {
+          saveState();
+        }
+        updateUI();
+      }
+
+      // Reset timer
+      function resetTimer() {
+        state.timerStart = Date.now();
+        state.timerRemaining = TIMER_DURATION;
+        state.sesionActiva = true;
+        saveState();
+
+        if (state.timerInterval) {
+          clearInterval(state.timerInterval);
+        }
+        startTimer();
+
+        // Hide expired message if shown
+        expiredMessageEl.classList.remove('visible');
+
+        updateUI();
+      }
+
+      // Start timer
+      function startTimer() {
+        updateTimerDisplay();
+
+        state.timerInterval = setInterval(() => {
+          if (!state.timerStart) return;
+
+          const elapsed = Math.floor((Date.now() - state.timerStart) / 1000);
+          state.timerRemaining = Math.max(0, TIMER_DURATION - elapsed);
+
+          updateTimerDisplay();
+          updateSessionTimerDisplay();
+
+          if (state.timerRemaining <= 0) {
+            clearInterval(state.timerInterval);
+            state.sesionActiva = false;
+            saveState();
+            showExpiredState();
+          }
+        }, 1000);
+      }
+
+      // Update timer display
+      function updateTimerDisplay() {
+        const minutes = Math.floor(state.timerRemaining / 60);
+        const seconds = state.timerRemaining % 60;
+        const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        timerEl.textContent = `[ARCHIVO SE CIERRA EN ${formatted}]`;
+
+        if (state.timerRemaining < 120) {
+          timerEl.classList.add('expired');
+        } else {
+          timerEl.classList.remove('expired');
+        }
+      }
+
+      // Update session timer display
+      function updateSessionTimerDisplay() {
+        const minutes = Math.floor(state.timerRemaining / 60);
+        const seconds = state.timerRemaining % 60;
+        const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        sessionTimerDisplayEl.textContent = `[${formatted}]`;
+
+        if (state.timerRemaining < 120) {
+          sessionTimerDisplayEl.classList.add('expired');
+        } else {
+          sessionTimerDisplayEl.classList.remove('expired');
+        }
+      }
+
+      // Show expired state
+      function showExpiredState() {
+        expiredMessageEl.classList.add('visible');
+        docLinks.forEach(link => {
+          link.classList.add('locked');
+        });
+        viewerEl.classList.remove('open');
+        timerEl.textContent = '[SESIÓN EXPIRADA]';
+        timerEl.classList.add('expired');
+        sessionTimerDisplayEl.textContent = '[00:00]';
+        sessionTimerDisplayEl.classList.add('expired');
+      }
+
+      // Update UI
+      function updateUI() {
+        // Update doc links
+        docLinks.forEach(link => {
+          const docId = link.dataset.doc;
+
+          // Reset classes
+          link.classList.remove('explored', 'active', 'locked');
+
+          // Mark explored
+          if (state.docsExplorados.includes(docId)) {
+            link.classList.add('explored');
+          }
+
+          // Mark active
+          if (state.docAbierto === docId) {
+            link.classList.add('active');
+          }
+
+          // Mark locked if session expired
+          if (!state.sesionActiva) {
+            link.classList.add('locked');
+          }
+        });
+
+        // Show access prompt after 2+ docs explored
+        if (state.docsExplorados.length >= DOCS_FOR_PROMPT && state.sesionActiva) {
+          accessPromptEl.classList.add('visible');
+        } else {
+          accessPromptEl.classList.remove('visible');
+        }
+      }
+
+      // Initialize on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
