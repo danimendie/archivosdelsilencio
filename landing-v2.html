@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Los Archivos del Silencio — Vol. 1</title>
+  <meta name="description" content="Siete testimonios vedados al público. Archivo intervenido por discreción editorial." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #050505;
+      --paper:     #f0ebe0;
+      --paper-dim: #c8c2b5;
+      --red:       #8b0000;
+      --red-glow:  #cc1a1a;
+      --gold:      #a08050;
+      --muted:     #4a4a4a;
+      --text:      #e8e8e8;
+      --text-dim:  #888888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.7;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--red); color: white; }
+
+    /* ── Custom cursor ── */
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(139,0,0,0.4);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, border-color 0.3s;
+    }
+    body:hover .cursor-ring {
+      width: 48px; height: 48px;
+      border-color: rgba(139,0,0,0.8);
+    }
+
+    /* ── Scanlines ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* ── Noise overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 8999;
+      animation: noiseAnim 0.5s steps(3) infinite;
+    }
+    @keyframes noiseAnim {
+      0% { transform: translate(0,0); }
+      33% { transform: translate(-2%, 1%); }
+      66% { transform: translate(1%, -2%); }
+      100% { transform: translate(-1%, 1%); }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .section-pad {
+      padding: 120px 0;
+    }
+
+    /* ── Glitch keyframes ── */
+    @keyframes glitchH {
+      0%   { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+      20%  { clip-path: inset(92% 0 1% 0);  transform: translate(2px, 0); }
+      40%  { clip-path: inset(43% 0 1% 0);  transform: translate(-1px, 0); }
+      60%  { clip-path: inset(25% 0 58% 0); transform: translate(1px, 0); }
+      80%  { clip-path: inset(54% 0 7% 0);  transform: translate(-2px, 0); }
+      100% { clip-path: inset(58% 0 43% 0); transform: translate(0, 0); }
+    }
+    @keyframes glitchHa {
+      0%   { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
+      20%  { clip-path: inset(54% 0 7% 0);  transform: translate(-2px, 0); }
+      40%  { clip-path: inset(92% 0 1% 0);  transform: translate(1px, 0); }
+      60%  { clip-path: inset(40% 0 61% 0); transform: translate(-1px, 0); }
+      80%  { clip-path: inset(43% 0 1% 0);  transform: translate(2px, 0); }
+      100% { clip-path: inset(58% 0 43% 0); transform: translate(0, 0); }
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      97% { opacity: 1; }
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    @keyframes revealUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseRed {
+      0%, 100% { box-shadow: 0 0 0px rgba(139,0,0,0); }
+      50%       { box-shadow: 0 0 20px rgba(139,0,0,0.3); }
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px) rotateY(-12deg) rotateX(4deg); }
+      50%       { transform: translateY(-12px) rotateY(-12deg) rotateX(4deg); }
+    }
+    @keyframes borderPulse {
+      0%, 100% { border-color: rgba(139,0,0,0.2); }
+      50%       { border-color: rgba(139,0,0,0.6); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 28px 0;
+      background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0) 100%);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(5,5,5,0.97);
+      border-bottom: 1px solid rgba(139,0,0,0.2);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-cta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      border: 1px solid rgba(139,0,0,0.4);
+      padding: 8px 20px;
+      transition: all 0.3s;
+    }
+    .nav-cta:hover {
+      background: var(--red);
+      color: white;
+      border-color: var(--red);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(139,0,0,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(139,0,0,0.04) 0%, transparent 50%);
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(139,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,0,0,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%);
+    }
+    .hero-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 80px;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+    .hero-text { position: relative; }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.2s forwards;
+    }
+    .hero-title-wrap {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      animation: flicker 8s infinite;
+    }
+    .hero-title-glitch {
+      position: absolute;
+      top: 0; left: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--red-glow);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-title-glitch:first-child {
+      animation: glitchH 4s infinite;
+      opacity: 0.07;
+    }
+    .hero-title-glitch:last-child {
+      animation: glitchHa 4s infinite 0.1s;
+      opacity: 0.07;
+    }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.4s forwards;
+    }
+    .hero-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--red), transparent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.5s forwards;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-dim);
+      line-height: 1.9;
+      max-width: 480px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.6s forwards;
+    }
+    .hero-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.7s forwards;
+    }
+    .hero-price-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .hero-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .hero-price-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.8s forwards;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: revealUp 0.8s ease 0.9s forwards;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s;
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover {
+      background: var(--red-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(139,0,0,0.4);
+    }
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      text-decoration: none;
+      transition: all 0.3s;
+      background: transparent;
+    }
+    .btn-ghost:hover {
+      border-color: var(--red);
+      color: white;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      opacity: 0;
+      animation: revealUp 0.8s ease 1s forwards;
+    }
+    .hero-meta-item {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .hero-meta-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.1);
+      align-self: center;
+    }
+
+    /* Book */
+    .book-wrap {
+      perspective: 1000px;
+      opacity: 0;
+      animation: revealUp 1s ease 0.4s forwards;
+    }
+    .book {
+      position: relative;
+      transform-style: preserve-3d;
+      animation: floatY 6s ease-in-out infinite;
+      transform: rotateY(-12deg) rotateX(4deg);
+    }
+    .book-cover {
+      background: var(--paper);
+      width: 220px;
+      padding: 36px 24px;
+      position: relative;
+      box-shadow:
+        -8px 0 20px rgba(0,0,0,0.5),
+        inset -3px 0 0 rgba(0,0,0,0.1);
+    }
+    .book-cover::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .book-cover-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .book-cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .book-cover-vol {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .book-divider {
+      width: 24px;
+      height: 1px;
+      background: var(--red);
+      margin: 12px 0;
+    }
+    .book-cover-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    .book-spine {
+      position: absolute;
+      left: -6px; top: 0;
+      width: 6px; height: 100%;
+      background: var(--paper-dim);
+      transform: rotateY(-90deg) translateZ(0px);
+      transform-origin: right center;
+      box-shadow: inset -2px 0 4px rgba(0,0,0,0.1);
+    }
+    .book-pages {
+      position: absolute;
+      right: -4px; top: 3px;
+      width: 4px; bottom: 3px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--paper) 0px,
+        #ddd 1px,
+        var(--paper) 2px
+      );
+      opacity: 0.5;
+    }
+    .book-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(ellipse at center, rgba(139,0,0,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulseRed 4s infinite;
+    }
+    .book-label {
+      position: absolute;
+      bottom: -32px;
+      left: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .book-classified {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 40px;
+      height: 40px;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.35rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.05em;
+      transform: rotate(12deg);
+      box-shadow: 0 2px 10px rgba(139,0,0,0.5);
+    }
+
+    /* ── MARQUEE DIVIDER ── */
+    .marquee-divider {
+      border-top: 1px solid rgba(139,0,0,0.2);
+      border-bottom: 1px solid rgba(139,0,0,0.2);
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      background: rgba(139,0,0,0.02);
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 30s linear infinite;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(139,0,0,0.4);
+    }
+    .marquee-track span {
+      margin: 0 40px;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── PAPER SECTIONS ── */
+    .paper-section {
+      background: var(--paper);
+      color: #1a1a1a;
+      position: relative;
+    }
+    .paper-section .section-title {
+      color: #0a0a0a;
+    }
+    .paper-section .hero-desc,
+    .paper-section .section-intro,
+    .paper-section .curiosity-item-body,
+    .paper-section .diff-body,
+    .paper-section .story-hook,
+    .paper-section .get-desc,
+    .paper-section .faq-answer-inner {
+      color: #3a3a3a;
+    }
+    .paper-section .eyebrow { color: var(--red); }
+    .paper-section .curiosity-item-title,
+    .paper-section .diff-title,
+    .paper-section .story-title,
+    .paper-section .get-title,
+    .paper-section .faq-question-text {
+      color: #0a0a0a;
+    }
+    .paper-section .curiosity-item-num { color: rgba(139,0,0,0.4); }
+    .paper-section .story-num { color: rgba(139,0,0,0.5); }
+    .paper-section .for-whom-text { color: #3a3a3a; }
+    .paper-section .for-whom-item { border-color: rgba(0,0,0,0.1); }
+    .paper-section .for-whom-bullet { background: var(--red); }
+    .paper-section .get-item { background: var(--paper); border-color: rgba(0,0,0,0.08); }
+    .paper-section .get-grid { background: rgba(0,0,0,0.08); }
+    .paper-section .faq-item { border-color: rgba(0,0,0,0.1); }
+    .paper-section .diff-item { background: #e8e3d8; border-color: rgba(0,0,0,0.06); }
+    .paper-section .diff-grid { background: rgba(0,0,0,0.06); }
+    .paper-section .diff-icon { background: var(--red); }
+    .paper-section .price-block { background: #1a1a1a; border-color: rgba(0,0,0,0.3); }
+    .paper-section .price-block-eyebrow { color: var(--red); }
+    .paper-section .price-block-title { color: var(--paper); }
+    .paper-section .price-block-sub { color: #888; }
+    .paper-section .price-amount { color: var(--paper); }
+    .paper-section .price-currency { color: #888; }
+    .paper-section .price-note { color: #555; }
+    .paper-section .price-feature { color: #666; }
+    .paper-section .price-feature svg { stroke: var(--red); }
+    .paper-section .footer-disclaimer { color: #555; }
+    .paper-section .closing-quote { color: #1a1a1a; }
+    .paper-section .closing-label { color: var(--red); }
+
+    /* ── SECTION REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ── Shared ── */
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .section-intro {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 620px;
+    }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.85;
+      max-width: 520px;
+    }
+
+    /* ── OPENING BLOCK ── */
+    .opening-block {
+      border-top: 1px solid rgba(139,0,0,0.15);
+      border-bottom: 1px solid rgba(139,0,0,0.15);
+      padding: 100px 0;
+      position: relative;
+    }
+    .opening-block::before {
+      content: 'EXPEDIENTE';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: 8vw;
+      font-weight: 800;
+      color: rgba(139,0,0,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 0.2em;
+    }
+    .opening-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      color: var(--text-dim);
+      max-width: 700px;
+      margin: 0 auto 16px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .opening-attr {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-align: center;
+    }
+
+    /* ── CURIOSITY ── */
+    .curiosity-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.15);
+      margin-top: 60px;
+    }
+    .curiosity-item {
+      background: rgba(255,255,255,0.03);
+      padding: 36px 28px;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .curiosity-item:hover { background: rgba(255,255,255,0.06); }
+    .curiosity-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+      transform-origin: left;
+    }
+    .curiosity-item:hover::before { transform: scaleX(1); }
+    .curiosity-item-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: rgba(139,0,0,0.35);
+      line-height: 1;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+    .curiosity-item:hover .curiosity-item-num { color: var(--red); }
+    .curiosity-item-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .curiosity-item-body {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+
+    /* ── VEROSIMILITUD ── */
+    .verosimilitud {
+      background: var(--paper);
+      color: #1a1a1a;
+      padding: 100px 0;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .redacted {
+      background: #1a1a1a;
+      color: #1a1a1a;
+      padding: 0 6px;
+      cursor: help;
+      transition: color 0.3s;
+    }
+    .redacted:hover { color: var(--red); }
+    .verosimilitud .section-title { color: #0a0a0a; }
+    .verosimilitud .hero-desc { color: #3a3a3a; }
+
+    /* ── DIFFERENTIAL ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.1);
+      margin-top: 60px;
+    }
+    .diff-item {
+      background: rgba(0,0,0,0.05);
+      padding: 40px 28px;
+    }
+    .diff-icon {
+      width: 32px;
+      height: 2px;
+      background: var(--red);
+      margin-bottom: 20px;
+    }
+    .diff-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .diff-body {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+    .diff-item:last-child {
+      background: rgba(139,0,0,0.05);
+    }
+
+    /* ── STORIES ── */
+    .stories-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .stories-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(139,0,0,0.15);
+      margin-top: 56px;
+    }
+    .story-card {
+      background: var(--bg);
+      padding: 40px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at bottom right, rgba(139,0,0,0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .story-card:hover { background: #0c0c0c; }
+    .story-card:hover::after { opacity: 1; }
+    .story-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: rgba(139,0,0,0.3);
+      line-height: 1;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+    .story-card:hover .story-num { color: var(--red); }
+    .story-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .story-hook {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+    .story-card:last-child {
+      grid-column: 1 / -1;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── SAMPLE ── */
+    .sample-section {
+      background: #080808;
+      border-top: 1px solid rgba(139,0,0,0.2);
+      border-bottom: 1px solid rgba(139,0,0,0.2);
+    }
+    .sample-inner {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 80px;
+      align-items: center;
+    }
+    .sample-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 20px;
+    }
+    .sample-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 28px;
+      line-height: 1.2;
+    }
+    .sample-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-dim);
+      line-height: 1.85;
+    }
+    .sample-body p { margin-bottom: 16px; }
+    .sample-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--red);
+      margin: 20px 0;
+    }
+    .sample-attribution {
+      font-family: 'Space Mono', monospace;
+      font-style: normal;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .sample-cta-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .sample-cta-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sample-cta-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .sample-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      border-left: 2px solid var(--red);
+      padding-left: 20px;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    /* ── FOR WHOM ── */
+    .for-whom-list {
+      list-style: none;
+      margin-top: 48px;
+    }
+    .for-whom-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .for-whom-item:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+    .for-whom-bullet {
+      width: 6px; height: 6px;
+      background: var(--red);
+      flex-shrink: 0;
+      margin-top: 8px;
+      transform: rotate(45deg);
+    }
+    .for-whom-text {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── WHAT YOU GET ── */
+    .get-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(0,0,0,0.2);
+      margin-top: 56px;
+    }
+    .get-item {
+      background: rgba(255,255,255,0.03);
+      padding: 32px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .get-icon {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(139,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .get-icon svg { width: 14px; height: 14px; stroke: var(--red); fill: none; }
+    .get-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .get-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── PRICE ── */
+    .price-section {
+      padding: 100px 0;
+    }
+    .price-block {
+      background: #0a0a0a;
+      border: 1px solid rgba(139,0,0,0.2);
+      text-align: center;
+      padding: 80px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+    .price-block::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(139,0,0,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .price-block-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 20px;
+    }
+    .price-block-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .price-block-sub {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .price-display { margin-bottom: 4px; }
+    .price-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .price-currency {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      vertical-align: super;
+      margin-right: 4px;
+    }
+    .price-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      letter-spacing: 0.1em;
+    }
+    .price-features {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .price-feature {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.08em;
+    }
+    .price-feature svg { width: 12px; height: 12px; stroke: var(--red); fill: none; }
+    .price-cta-wrap {
+      position: relative;
+      z-index: 1;
+    }
+    .price-micro {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      margin-top: 14px;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      gap: 20px;
+    }
+    .faq-question-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .faq-plus {
+      width: 20px; height: 20px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .faq-plus::before,
+    .faq-plus::after {
+      content: '';
+      position: absolute;
+      background: var(--red);
+      transition: transform 0.3s;
+    }
+    .faq-plus::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq-plus::after  { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+    .faq-item.open .faq-plus::after { transform: translateX(-50%) rotate(90deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-answer-inner {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      padding-bottom: 24px;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      text-align: center;
+      padding: 140px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .closing-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: 12vw;
+      font-weight: 800;
+      color: rgba(139,0,0,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 0.1em;
+    }
+    .closing-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 24px;
+    }
+    .closing-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      max-width: 680px;
+      margin: 0 auto 44px;
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(139,0,0,0.15);
+      padding: 48px 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      line-height: 1.8;
+      letter-spacing: 0.08em;
+    }
+    .footer-disclaimer {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      margin-top: 8px;
+    }
+
+    /* ── RED LINE ── */
+    .red-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      margin: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1000px) {
+      .hero-layout { grid-template-columns: 1fr; gap: 48px; }
+      .book-wrap { display: none; }
+      .curiosity-grid { grid-template-columns: repeat(2, 1fr); }
+      .diff-grid { grid-template-columns: repeat(2, 1fr); }
+      .sample-inner { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 700px) {
+      .container { padding: 0 24px; }
+      .section-pad { padding: 80px 0; }
+      .curiosity-grid { grid-template-columns: 1fr; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .story-card:last-child { max-width: 100%; }
+      .get-grid { grid-template-columns: 1fr; }
+      .hero-meta { flex-direction: column; gap: 12px; }
+      .hero-meta-sep { display: none; }
+      .price-features { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Archivos<span>.</span></a>
+      <a href="#price" class="nav-cta">Acceder</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Archivo reservado — Volumen I</div>
+        <div class="hero-title-wrap">
+          <h1 class="hero-title">Los Archivos<br>del Silencio</h1>
+          <div class="hero-title-glitch" aria-hidden="true">Los Archivos<br>del Silencio</div>
+          <div class="hero-title-glitch" aria-hidden="true">Los Archivos<br>del Silencio</div>
+        </div>
+        <div class="hero-sub">Siete testimonios vedados al público</div>
+        <div class="hero-divider"></div>
+        <p class="hero-desc">
+          Cartas que no llegaron. Nombres borrados. Celdas sin registro. Un volumen construido como archivo reservado para lectores que disfrutan entrar donde no deberían.
+        </p>
+        <div class="hero-price-row">
+          <span class="hero-price-label">Acceso al archivo</span>
+          <span class="hero-price">USD 5.90</span>
+        </div>
+        <div class="hero-price-note">Descarga inmediata · EPUB + PDF · Lectura en cualquier dispositivo</div>
+        <div class="hero-cta-row">
+          <a href="#price" class="btn-primary">Entrar al archivo</a>
+          <a href="#sample" class="btn-ghost">Leer una muestra</a>
+        </div>
+        <div class="hero-meta">
+          <span class="hero-meta-item">7 testimonios conectados</span>
+          <span class="hero-meta-sep"></span>
+          <span class="hero-meta-item">+40.000 palabras</span>
+          <span class="hero-meta-sep"></span>
+          <span class="hero-meta-item">Vol. 1 de la serie</span>
+        </div>
+      </div>
+      <div class="book-wrap">
+        <div class="book">
+          <div class="book-glow"></div>
+          <div class="book-spine"></div>
+          <div class="book-pages"></div>
+          <div class="book-cover">
+            <div class="book-cover-label">Archivo reservado</div>
+            <div class="book-cover-title">Los Archivos<br>del Silencio</div>
+            <div class="book-cover-vol">Volumen I</div>
+            <div class="book-divider"></div>
+            <div class="book-cover-desc">
+              Testimonios vedados al público<br>
+              <em style="color:var(--red);font-size:0.6rem;letter-spacing:0.1em;">DOMINICAS DE LA SANTA CRUZ</em>
+            </div>
+          </div>
+          <div class="book-classified">SECRETO</div>
+          <div class="book-label">EXPEDIENTE N.° 19 — 1952</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE DIVIDER ── -->
+<div class="marquee-divider">
+  <div class="marquee-track">
+    <span>EXPEDIENTE RESERVADO</span>
+    <span>—</span>
+    <span>ARCHIVO INTERVENIDO POR DISCRECIÓN EDITORIAL</span>
+    <span>—</span>
+    <span>TESTIMONIOS VEDADOS AL PÚBLICO</span>
+    <span>—</span>
+    <span>DOCUMENTOS QUE NO DEBIERON CIRCULAR</span>
+    <span>—</span>
+    <span>EXPEDIENTE RESERVADO</span>
+    <span>—</span>
+    <span>ARCHIVO INTERVENIDO POR DISCRECIÓN EDITORIAL</span>
+    <span>—</span>
+    <span>TESTIMONIOS VEDADOS AL PÚBLICO</span>
+    <span>—</span>
+    <span>DOCUMENTOS QUE NO DEBIERON CIRCULAR</span>
+    <span>—</span>
+  </div>
+</div>
+
+<!-- ── OPENING QUOTE ── -->
+<div class="opening-block">
+  <div class="container">
+    <blockquote class="opening-quote reveal">
+      «Lo que aquí se conserva no fue escrito para circular.»
+    </blockquote>
+    <p class="opening-attr reveal">— Nota hallada entre los documentos del archivo, 1952</p>
+  </div>
+</div>
+
+<!-- ── CURIOSITY / EL ARCHIVO ── -->
+<section class="section-pad">
+  <div class="container">
+    <span class="eyebrow reveal">El archivo</span>
+    <h2 class="section-title reveal">Esto no se presenta como un libro.<br>Se presenta como un archivo.</h2>
+    <p class="hero-desc reveal" style="max-width:640px;">
+      Los documentos de este volumen fueron reunidos como si alguien hubiera intentado conservar algo que nunca debió explicarse del todo. Testimonios, notas, transcripciones y fragmentos atribuidos a un archivo conventual, intervenidos solo donde la discreción editorial lo vuelve necesario.
+    </p>
+    <p class="hero-desc reveal" style="max-width:640px; margin-top:16px;">
+      No estás entrando a una colección de cuentos. Estás entrando a un expediente de voces, silencios y hechos que nadie quiso dejar del todo en claro.
+    </p>
+    <div class="curiosity-grid">
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">1487</div>
+        <div class="curiosity-item-title">Origen</div>
+        <div class="curiosity-item-body">Los primeros documentos de este archivo comenzaron a reunirse en el mismo año en que se fundó el convento. Nadie dejó por escrito qué debía guardarse. Solo que debía guardarse.</div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">1952</div>
+        <div class="curiosity-item-title">El hallazgo</div>
+        <div class="curiosity-item-body">Durante una restauración del ala este, apareció una caja de hierro oculta tras un tabique. Dentro había papeles, notas y transcripciones fechadas entre 1892 y 1951.</div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">19</div>
+        <div class="curiosity-item-title">La celda</div>
+        <div class="curiosity-item-body">La celda número 19 aparece una y otra vez en distintos documentos del archivo. No siempre con el mismo nombre. Nunca con una explicación suficiente.</div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">7</div>
+        <div class="curiosity-item-title">Los testimonios</div>
+        <div class="curiosity-item-body">Siete voces. Siete versiones de algo que no debió ocurrir. Algunos textos son confesiones. Otros, cartas. Otros, notas personales. Ninguno fue escrito para ser publicado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="red-line"></div>
+
+<!-- ── VEROSIMILITUD ── -->
+<section class="verosimilitud">
+  <div class="container">
+    <span class="eyebrow reveal">El material</span>
+    <h2 class="section-title reveal">Intervenido por discreción.<br>Conservado por necesidad.</h2>
+    <p class="hero-desc reveal">
+      Los nombres, lugares y algunos detalles identificatorios de este volumen han sido alterados por <span class="redacted">████████████████████████</span> discreción editorial. El resto fue trabajado para conservar el tono, la estructura y la incomodidad de los documentos atribuidos al archivo.
+    </p>
+    <p class="hero-desc reveal" style="margin-top:16px;">
+      No fue escrito para parecer ficción. Fue escrito para leerse como material que no debía circular.
+    </p>
+  </div>
+</section>
+
+<div class="red-line"></div>
+
+<!-- ── DIFFERENTIAL ── -->
+<section class="section-pad">
+  <div class="container">
+    <span class="eyebrow reveal">Por qué este ebook</span>
+    <h2 class="section-title reveal">No son siete cuentos sueltos.<br>Es un mismo archivo abriéndose.</h2>
+    <p class="section-intro reveal">
+      La mayoría de los ebooks de este género reúne relatos independientes bajo una misma portada. Este no. Los Archivos del Silencio fue pensado para leerse como un volumen conectado: cada testimonio deja una pista, cada nota de Aguirre abre una grieta, y cada documento empuja al lector un poco más adentro.
+    </p>
+    <div class="diff-grid">
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Estructura de archivo</div>
+        <div class="diff-body">Cada testimonio tiene forma, fecha y voz propia.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Lectura acumulativa</div>
+        <div class="diff-body">Lo que un relato insinúa, otro lo profundiza.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Tono documental</div>
+        <div class="diff-body">Menos artificio, más inquietud.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Volumen 1</div>
+        <div class="diff-body">Una experiencia cerrada que también abre una serie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORIES (paper bg) ── -->
+<section class="paper-section section-pad" id="contenido">
+  <div class="container">
+    <div class="stories-header">
+      <h2 class="section-title reveal">Siete testimonios.<br>Una misma sombra.</h2>
+      <p class="section-intro reveal" style="text-align:center; margin: 0 auto;">Cada testimonio abre una puerta distinta. Ninguna se cierra del todo.</p>
+    </div>
+    <div class="stories-grid">
+      <div class="story-card reveal">
+        <div class="story-num">01</div>
+        <div class="story-title">La carta que nunca llegó al Santo Padre</div>
+        <div class="story-hook">Una carta enviada siete veces. Siete veces devuelta. Y nadie quiso explicar por qué.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">02</div>
+        <div class="story-title">El confesor de la celda 19</div>
+        <div class="story-hook">Un preso repite durante semanas la misma frase. Cuando por fin deciden escucharlo, el cuerpo ya estaba frío.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">03</div>
+        <div class="story-title">La monja sin registro</div>
+        <div class="story-hook">Una mujer vivió décadas dentro del convento. Nadie pudo encontrar su nombre en ningún libro.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">04</div>
+        <div class="story-title">La llave de la biblioteca inferior</div>
+        <div class="story-hook">Una llave sin inventario. Una puerta tapiada. Un libro que siguió recibiendo visitas mucho después de haber sido sellado.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">05</div>
+        <div class="story-title">El niño del milagro incompleto</div>
+        <div class="story-hook">Un niño pidió devolver a su hermana de la muerte. Lo consigue. Pero no vuelve lo que esperaba.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">06</div>
+        <div class="story-title">El responso que nadie pidió</div>
+        <div class="story-hook">Una campana declarada muda siguió llamando de madrugada. Nadie admitió haberla oído.</div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">07</div>
+        <div class="story-title">Los nombres borrados del libro rojo</div>
+        <div class="story-hook">En un libro prohibido aparecen nombres destinados a desaparecer. Algunos ya fueron borrados. Uno todavía no.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SAMPLE ── -->
+<section class="sample-section section-pad" id="sample">
+  <div class="container">
+    <div class="sample-inner">
+      <div class="sample-text">
+        <span class="sample-label reveal">Muestra — Relato 2</span>
+        <h2 class="sample-title reveal">Leé un fragmento antes de entrar</h2>
+        <div class="sample-body reveal">
+          <p>No hace falta leer mucho para entender el tono del archivo. Solo lo suficiente como para saber que vas a seguir.</p>
+          <div class="sample-divider"></div>
+          <div class="sample-quote">
+            «No he pecado todavía.»<br>
+            «Pero he sido pecado.»<br>
+            «¿Es lo mismo?»<br>
+            <em>[pausa]</em><br>
+            «No tengo nada. Pero tengo todo. Y no sé cuál de las dos cosas es peor.»
+          </div>
+          <div class="sample-divider"></div>
+          <p>Nunca confesión formal. Nunca un pecado concreto. Solo aquellas cinco frases, en aquel orden, con aquellas pausas. Y una certeza que no me abandona: algo está esperando. Y ya no puedo dejar de escuchar.</p>
+          <span class="sample-attribution">— Testimonio del padre Sebastián Aguirre, capellán. 1932.</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="sample-cta-label">Acceso al archivo</div>
+        <div class="sample-cta-price">USD 5.90</div>
+        <div class="sample-cta-note">Descarga inmediata · EPUB + PDF · Lectura en cualquier dispositivo</div>
+        <a href="#price" class="btn-primary" style="display:block; max-width:280px; text-align:center;">Quiero el volumen completo</a>
+        <div style="margin-top:16px;">
+          <a href="#contenido" class="btn-ghost" style="display:block; max-width:280px; text-align:center;">Ver todos los relatos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOR WHOM ── -->
+<section class="section-pad" id="para-quien">
+  <div class="container" style="max-width:720px;">
+    <span class="eyebrow reveal">Para quién es</span>
+    <h2 class="section-title reveal">Este archivo no es para todos.<br>Y no pretende serlo.</h2>
+    <p class="hero-desc reveal" style="margin-bottom:32px; max-width:580px;">
+      Está hecho para lectores atraídos por documentos vedados, conventos con secretos, misterio religioso, ficción sobria y relatos que se sienten demasiado cercanos a algo que podría haber sobrevivido en papel.
+    </p>
+    <ul class="for-whom-list">
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">Para quienes prefieren atmósfera antes que sobresalto fácil.</span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">Para quienes disfrutan la ficción con tono serio y documental.</span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">Para quienes quieren una lectura distinta a un ebook genérico.</span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">Para quienes entienden que a veces lo peor no es lo que se muestra, sino lo que nadie quiere explicar.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── WHAT YOU GET ── -->
+<section class="section-pad">
+  <div class="container">
+    <span class="eyebrow reveal">Tu compra</span>
+    <h2 class="section-title reveal">Qué recibís exactamente</h2>
+    <div class="get-grid">
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Ebook completo en EPUB</div>
+          <div class="get-desc">Compatible con cualquier lector digital, teléfono, tablet o computadora.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Ebook completo en PDF</div>
+          <div class="get-desc">Para leer en tu computadora, imprimirlo o mantenerlo como archivo.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="get-title">+40.000 palabras de lectura</div>
+          <div class="get-desc">Un volumen corto-premium con suficiente cuerpo como para sentirse como una lectura completa.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Acceso inmediato</div>
+          <div class="get-desc">Recibís el enlace de descarga después de la compra. Sin esperas.</div>
+        </div>
+      </div>
+      <div class="get-item reveal" style="grid-column: 1 / -1;">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Volumen 1 de una serie en expansión</div>
+          <div class="get-desc">No es una muestra ni un texto breve improvisado. Es un volumen completo, pensado para leerse como experiencia cerrada y, al mismo tiempo, como la apertura de un archivo mayor.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICE ── -->
+<section class="price-section" id="price">
+  <div class="container">
+    <div class="price-block reveal">
+      <span class="price-block-eyebrow">Tu acceso al archivo</span>
+      <h2 class="price-block-title">Los Archivos del Silencio — Vol. 1</h2>
+      <p class="price-block-sub">
+        Volumen 1 completo. Siete testimonios conectados. Una lectura diseñada para sentirse como un expediente abierto demasiado tarde.
+      </p>
+      <div class="price-display">
+        <span class="price-amount">
+          <span class="price-currency">USD</span>5.90
+        </span>
+      </div>
+      <div class="price-note">PAGO ÚNICO · SIN SUSCRIPCIÓN · ENTREGA AUTOMÁTICA</div>
+      <div class="price-features">
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          EPUB + PDF
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Descarga inmediata
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Cualquier dispositivo
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          +40.000 palabras
+        </span>
+      </div>
+      <div class="price-cta-wrap">
+        <a href="#" class="btn-primary" style="font-size:0.75rem; padding:18px 56px;" onclick="alert('Aquí iría el enlace a la plataforma de pago.'); return false;">
+          Comprar ahora — USD 5.90
+        </a>
+      </div>
+      <div class="price-micro">Pago seguro · Entrega automática</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section-pad" style="background:rgba(0,0,0,0.3); border-top:1px solid rgba(139,0,0,0.15); border-bottom:1px solid rgba(139,0,0,0.15);" id="faq">
+  <div class="container" style="max-width:720px;">
+    <span class="eyebrow reveal">Preguntas frecuentes</span>
+    <h2 class="section-title reveal">Antes de entrar al archivo</h2>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Es un libro físico o un ebook?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Es un ebook digital. No hay envío físico. Recibís acceso inmediato para leerlo en tus dispositivos.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Es una historia real?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Es una obra presentada con tratamiento documental y marco de archivo intervenido editorialmente. Algunos nombres, lugares y detalles fueron alterados por discreción. La experiencia está construida para leerse como material sensible, no como una ficción convencional.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿En qué formato lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Lo recibís en EPUB y PDF, para que puedas leerlo en celular, tablet o computadora.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Cuándo lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">El acceso es inmediato después de la compra.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Necesito Kindle o algo especial?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">No. Podés leerlo en cualquier dispositivo compatible con EPUB o PDF.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Cuánto dura la lectura?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Es un volumen corto-premium, pero con suficiente cuerpo como para sentirse como una lectura completa, no como un extracto.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Habrá más volúmenes?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Sí. Este es el Volumen 1 del archivo.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Está en español?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Sí. El ebook está íntegramente en español.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section class="closing">
+  <div class="closing-bg-text" aria-hidden="true">EXPEDIENTE</div>
+  <div class="container">
+    <span class="closing-label reveal">El archivo espera.</span>
+    <blockquote class="closing-quote reveal">
+      «Lo que no tiene nombre sigue esperando.<br>Y a veces, lo que espera, termina entrando.»
+    </blockquote>
+    <a href="#price" class="btn-primary reveal" style="font-size:0.7rem; padding:16px 48px;">
+      Entrar al archivo — USD 5.90
+    </a>
+    <p class="footer-disclaimer reveal" style="margin-top:28px; opacity:1;">
+      Archivo intervenido editorialmente · Descarga inmediata
+    </p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <p class="footer-text">
+      Los Archivos del Silencio — Vol. 1<br>
+      Archivo intervenido por discreción editorial<br>
+      © Del autor
+    </p>
+    <p class="footer-disclaimer">
+      Este es un producto digital. Los nombres, lugares y circunstancias han sido alterados<br>
+      por discreción editorial. La frontera entre archivo y ficción queda abierta.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ── Custom cursor ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+
+  // ── Nav scroll ──
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ── Scroll reveal ──
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 60);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ── Glitch on title (scroll-based) ──
+  const glitchEls = document.querySelectorAll('.hero-title-glitch');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (scrolled < 400) {
+      glitchEls.forEach(el => {
+        el.style.opacity = (scrolled / 400 * 0.12).toFixed(2);
+      });
+    }
+  }, { passive: true });
+
+  // ── FAQ toggle ──
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Parallax on hero text ──
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 8;
+    const y = (e.clientY / window.innerHeight - 0.5) * 4;
+    const heroText = document.querySelector('.hero-text');
+    if (heroText) {
+      heroText.style.transform = `translate(${x}px, ${y}px)`;
+    }
+  });
+
+  // ── Book hover glitch ──
+  const bookWrap = document.querySelector('.book-wrap');
+  if (bookWrap) {
+    bookWrap.addEventListener('mouseenter', () => {
+      glitchEls.forEach(el => { el.style.opacity = '0.2'; });
+    });
+    bookWrap.addEventListener('mouseleave', () => {
+      const scrolled = window.scrollY;
+      glitchEls.forEach(el => {
+        el.style.opacity = (scrolled < 400 ? scrolled / 400 * 0.12 : 0.12).toFixed(2);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Los Archivos del Silencio — Vol. 1 | Testimonios vedados al público</title>
+  <meta name="description" content="Siete testimonios que nunca debieron circular. Un archivo reservado. Una puerta que no debió abrirse. Descubre el Volumen 1." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0c0b0a;
+      --surface:   #141210;
+      --card:      #1a1816;
+      --border:    #2a2622;
+      --text:      #e8e0d4;
+      --text-dim:  #9a9088;
+      --text-muted:#5c554e;
+      --gold:      #8a7355;
+      --gold-light:#b09a78;
+      --gold-dim:  #4a3f32;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--gold-dim); color: var(--text); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+    /* ── Typography ── */
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    .font-english {
+      font-family: 'IM Fell English', serif;
+    }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-pad {
+      padding: 100px 0;
+    }
+
+    /* ── Gold rule ── */
+    .gold-rule {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      display: block;
+    }
+    .gold-rule-center {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--bg);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s;
+      cursor: pointer;
+      background: transparent;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes lineGrow {
+      from { width: 0; }
+      to   { width: 48px; }
+    }
+    @keyframes pulseGold {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 0.8; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Shared eyebrow ── */
+    .eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .section-intro {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 620px;
+      margin-bottom: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      background: linear-gradient(to bottom, rgba(12,11,10,0.95) 0%, rgba(12,11,10,0) 100%);
+      transition: background 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(12,11,10,0.96);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-cta {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-cta:hover { color: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(74,63,50,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(74,63,50,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Subtle grain texture via SVG filter */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 6px 14px;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .hero-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+      color: var(--gold-light);
+      margin-bottom: 28px;
+    }
+    .hero-desc {
+      max-width: 520px;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    .hero-price-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .hero-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .hero-price-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero-meta {
+      margin-top: 40px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+    .hero-meta-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* Book mockup */
+    .book-mockup {
+      position: relative;
+      width: 280px;
+      flex-shrink: 0;
+    }
+    .book-cover {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 40px 28px;
+      position: relative;
+      box-shadow:
+        8px 8px 32px rgba(0,0,0,0.6),
+        -1px -1px 0 rgba(255,255,255,0.03);
+    }
+    .book-cover::before {
+      content: '';
+      position: absolute;
+      top: 12px; left: 12px; right: 12px; bottom: 12px;
+      border: 1px solid var(--gold-dim);
+      pointer-events: none;
+    }
+    .book-cover-label {
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .book-cover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .book-cover-vol {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+    .book-cover-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin: 16px 0;
+    }
+    .book-cover-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .book-spine {
+      position: absolute;
+      left: -14px;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transform: skewY(-2deg);
+      transform-origin: top right;
+    }
+    .book-pages {
+      position: absolute;
+      right: -8px;
+      top: 4px;
+      bottom: 4px;
+      width: 8px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #d4c9b8 0px,
+        #c8bdaa 1px,
+        #d4c9b8 2px
+      );
+      opacity: 0.3;
+    }
+
+    .hero-layout {
+      display: flex;
+      gap: 64px;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    /* ── DIVIDER SECTION ── */
+    .archive-divider {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 0;
+      text-align: center;
+    }
+    .archive-divider blockquote {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 680px;
+      margin: 0 auto 16px;
+      line-height: 1.7;
+    }
+    .archive-divider cite {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── CURIOSITY ── */
+    .curiosity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 60px;
+    }
+    .curiosity-item {
+      background: var(--bg);
+      padding: 40px;
+    }
+    .curiosity-item-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold-dim);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .curiosity-item-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .curiosity-item-body {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+
+    /* ── WHAT MAKES IT DIFFERENT ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 60px;
+    }
+    .diff-item {
+      background: var(--card);
+      padding: 40px 32px;
+    }
+    .diff-icon {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+    .diff-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .diff-body {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+
+    /* ── STORIES ── */
+    .stories-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .stories-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+    .story-card {
+      background: var(--bg);
+      padding: 40px;
+      transition: background 0.3s;
+    }
+    .story-card:hover { background: var(--card); }
+    .story-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-dim);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .story-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .story-hook {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    /* ── SAMPLE ── */
+    .sample-section { background: var(--surface); }
+    .sample-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .sample-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 20px;
+    }
+    .sample-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+    .sample-body {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      line-height: 1.85;
+    }
+    .sample-body p { margin-bottom: 16px; }
+    .sample-body p:last-child { margin-bottom: 0; }
+    .sample-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin: 20px 0;
+    }
+    .sample-attribution {
+      font-family: 'Inter', sans-serif;
+      font-style: normal;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+    .sample-cta-block { }
+    .sample-cta-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .sample-cta-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sample-cta-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── FOR WHOM ── */
+    .for-whom-list {
+      list-style: none;
+      margin-top: 48px;
+    }
+    .for-whom-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .for-whom-item:first-child { border-top: 1px solid var(--border); }
+    .for-whom-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 8px;
+      transform: rotate(45deg);
+    }
+    .for-whom-text {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── WHAT YOU GET ── */
+    .get-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+    .get-item {
+      background: var(--bg);
+      padding: 36px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .get-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .get-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; }
+    .get-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .get-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── PRICE BLOCK ── */
+    .price-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .price-block-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 20px;
+    }
+    .price-block-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .price-block-sub {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .price-display {
+      margin-bottom: 8px;
+    }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .price-currency {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      vertical-align: super;
+      margin-right: 4px;
+    }
+    .price-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+    .price-features {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .price-feature {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .price-feature svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      gap: 20px;
+    }
+    .faq-question-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .faq-plus {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .faq-plus::before,
+    .faq-plus::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+      transition: transform 0.3s;
+    }
+    .faq-plus::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq-plus::after  { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+    .faq-item.open .faq-plus::after { transform: translateX(-50%) rotate(90deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 28px;
+    }
+    .faq-answer-inner {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      padding-left: 0;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      text-align: center;
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .closing::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(74,63,50,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .closing-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 24px;
+    }
+    .closing-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .footer-disclaimer {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-layout { flex-direction: column; gap: 48px; }
+      .book-mockup { width: 220px; }
+      .curiosity-grid { grid-template-columns: 1fr; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .sample-inner { grid-template-columns: 1fr; gap: 48px; }
+      .get-grid { grid-template-columns: 1fr; }
+      .hero-meta { gap: 20px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      .section-pad { padding: 72px 0; }
+      .book-cover { padding: 28px 20px; }
+      .story-card { padding: 28px 24px; }
+      .curiosity-item { padding: 28px 24px; }
+      .diff-item { padding: 28px 24px; }
+      .get-item { padding: 24px 20px; }
+      .price-block { padding: 56px 24px; }
+      .hero-cta-row { flex-direction: column; align-items: flex-start; }
+      .price-features { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Archivos del Silencio</a>
+      <a href="#price" class="nav-cta">Obtener el ebook</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Archivo reservado — Volumen I</div>
+        <h1 class="hero-title">Los Archivos<br>del Silencio</h1>
+        <div class="hero-sub">Siete testimonios vedados al público</div>
+        <p class="hero-desc">
+          Cartas que no llegaron. Nombres borrados. Celdas sin registro. Un volumen construido como archivo reservado para lectores que disfrutan entrar donde no deberían.
+        </p>
+        <div class="hero-price-label">Acceso al archivo</div>
+        <div class="hero-price">USD 5.90</div>
+        <div class="hero-price-note">Descarga inmediata · EPUB + PDF · Lectura en cualquier dispositivo</div>
+        <div class="hero-cta-row">
+          <a href="#price" class="btn-primary">Entrar al archivo</a>
+          <a href="#sample" class="btn-ghost">Leer una muestra</a>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            7 testimonios conectados
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            +40.000 palabras de lectura
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-dot"></span>
+            Vol. 1 de la serie
+          </div>
+        </div>
+      </div>
+      <div class="book-mockup">
+        <div class="book-cover">
+          <div class="book-cover-label">Archivo reservado</div>
+          <div class="book-cover-title">Los Archivos<br>del Silencio</div>
+          <div class="book-cover-vol">Volumen I</div>
+          <div class="book-cover-divider"></div>
+          <div class="book-cover-desc">
+            Testimonios vedados al público<br>
+            <em style="color:var(--gold);font-size:0.65rem;letter-spacing:0.1em;">DOMINICAS DE LA SANTA CRUZ · CASTILE</em>
+          </div>
+        </div>
+        <div class="book-spine"></div>
+        <div class="book-pages"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ARCHIVE DIVIDER ── -->
+<div class="archive-divider">
+  <div class="container">
+    <blockquote>
+      «Lo que aquí se conserva no fue escrito para circular.»
+    </blockquote>
+    <cite>— Nota hallada entre los documentos del archivo, 1952</cite>
+  </div>
+</div>
+
+<!-- ── CURIOSITY ── -->
+<section class="section-pad" id="about">
+  <div class="container">
+    <span class="eyebrow reveal">El archivo</span>
+    <h2 class="section-title reveal">Esto no se presenta como un libro.<br>Se presenta como un archivo.</h2>
+    <p class="hero-desc" style="margin-bottom:0; max-width:640px;">
+      Los documentos de este volumen fueron reunidos como si alguien hubiera intentado conservar algo que nunca debió explicarse del todo. Testimonios, notas, transcripciones y fragmentos atribuidos a un archivo conventual, intervenidos solo donde la discreción editorial lo vuelve necesario.
+    </p>
+    <p class="hero-desc" style="margin-top:16px; max-width:640px;">
+      No estás entrando a una colección de cuentos. Estás entrando a un expediente de voces, silencios y hechos que nadie quiso dejar del todo en claro.
+    </p>
+    <div class="curiosity-grid" style="margin-top:48px;">
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">1487</div>
+        <div class="curiosity-item-title">Origen</div>
+        <div class="curiosity-item-body">
+          Los primeros documentos de este archivo comenzaron a reunirse en el mismo año en que se fundó el convento. Nadie dejó por escrito qué debía guardarse. Solo que debía guardarse.
+        </div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">1952</div>
+        <div class="curiosity-item-title">El hallazgo</div>
+        <div class="curiosity-item-body">
+          Durante una restauración del ala este, apareció una caja de hierro oculta tras un tabique. Dentro había papeles, notas y transcripciones fechadas entre 1892 y 1951.
+        </div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">19</div>
+        <div class="curiosity-item-title">La celda</div>
+        <div class="curiosity-item-body">
+          La celda número 19 aparece una y otra vez en distintos documentos del archivo. No siempre con el mismo nombre. Nunca con una explicación suficiente.
+        </div>
+      </div>
+      <div class="curiosity-item reveal">
+        <div class="curiosity-item-num">7</div>
+        <div class="curiosity-item-title">Los testimonios</div>
+        <div class="curiosity-item-body">
+          Siete voces. Siete versiones de algo que no debió ocurrir. Algunos textos son confesiones. Otros, cartas. Otros, notas personales. Ninguno fue escrito para ser publicado.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VEROSIMILITUD ── -->
+<section class="section-pad" id="verosimilitud" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div style="max-width: 640px;">
+      <span class="eyebrow reveal">El material</span>
+      <h2 class="section-title reveal">Intervenido por discreción.<br>Conservado por necesidad.</h2>
+      <p class="hero-desc reveal" style="margin-bottom: 0;">
+        Los nombres, lugares y algunos detalles identificatorios de este volumen han sido alterados por discreción editorial. El resto fue trabajado para conservar el tono, la estructura y la incomodidad de los documentos atribuidos al archivo.
+      </p>
+      <p class="hero-desc reveal" style="margin-top: 16px;">
+        No fue escrito para parecer ficción. Fue escrito para leerse como material que no debía circular.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT MAKES IT DIFFERENT ── -->
+<section class="section-pad" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);" id="diferencia">
+  <div class="container">
+    <span class="eyebrow reveal">Por qué este ebook</span>
+    <h2 class="section-title reveal">No son siete cuentos sueltos.<br>Es un mismo archivo abriéndose.</h2>
+    <p class="section-intro reveal">
+      La mayoría de los ebooks de este género reúne relatos independientes bajo una misma portada. Este no. Los Archivos del Silencio fue pensado para leerse como un volumen conectado: cada testimonio deja una pista, cada nota de Aguirre abre una grieta, y cada documento empuja al lector un poco más adentro.
+    </p>
+    <div class="diff-grid">
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Estructura de archivo</div>
+        <div class="diff-body">Cada testimonio tiene forma, fecha y voz propia.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Lectura acumulativa</div>
+        <div class="diff-body">Lo que un relato insinúa, otro lo profundiza.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Tono documental</div>
+        <div class="diff-body">Menos artificio, más inquietud.</div>
+      </div>
+      <div class="diff-item reveal" style="grid-column: 1 / -1; max-width: 340px;">
+        <div class="diff-icon"></div>
+        <div class="diff-title">Volumen 1</div>
+        <div class="diff-body">Una experiencia cerrada que también abre una serie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORIES ── -->
+<section class="section-pad" id="contenido">
+  <div class="container">
+    <div class="stories-header">
+      <h2 class="section-title reveal">Siete testimonios.<br>Una misma sombra.</h2>
+      <p class="section-intro reveal" style="text-align:center; margin: 0 auto 0;">Cada testimonio abre una puerta distinta. Ninguna se cierra del todo.</p>
+    </div>
+    <div class="stories-grid">
+      <div class="story-card reveal">
+        <div class="story-num">01</div>
+        <div class="story-title">La carta que nunca llegó al Santo Padre</div>
+        <div class="story-hook">
+          Una carta enviada siete veces. Siete veces devuelta. Y nadie quiso explicar por qué.
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">02</div>
+        <div class="story-title">El confesor de la celda 19</div>
+        <div class="story-hook">
+          Un preso repite durante semanas la misma frase. Cuando por fin deciden escucharlo, el cuerpo ya estaba frío.
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">03</div>
+        <div class="story-title">La monja sin registro</div>
+        <div class="story-hook">
+          Una mujer vivió décadas dentro del convento. Nadie pudo encontrar su nombre en ningún libro.
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">04</div>
+        <div class="story-title">La llave de la biblioteca inferior</div>
+        <div class="story-hook">
+          Una llave sin inventario. Una puerta tapiada. Un libro que siguió recibiendo visitas mucho después de haber sido sellado.
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">05</div>
+        <div class="story-title">El niño del milagro incompleto</div>
+        <div class="story-hook">
+          Un niño pidió devolver a su hermana de la muerte. Lo consigue. Pero no vuelve lo que esperaba.
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <div class="story-num">06</div>
+        <div class="story-title">El responso que nadie pidió</div>
+        <div class="story-hook">
+          Una campana declarada muda siguió llamando de madrugada. Nadie admitió haberla oído.
+        </div>
+      </div>
+      <div class="story-card reveal" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+        <div class="story-num">07</div>
+        <div class="story-title">Los nombres borrados del libro rojo</div>
+        <div class="story-hook">
+          En un libro prohibido aparecen nombres destinados a desaparecer. Algunos ya fueron borrados. Uno todavía no.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SAMPLE ── -->
+<section class="section-pad sample-section" id="sample">
+  <div class="container">
+    <div class="sample-inner">
+      <div class="sample-text reveal">
+        <span class="sample-label">Muestra — Relato 2</span>
+        <h2 class="sample-title">Leé un fragmento antes de entrar</h2>
+        <div class="sample-body">
+          <p>
+            No hace falta leer mucho para entender el tono del archivo. Solo lo suficiente como para saber que vas a seguir.
+          </p>
+          <div class="sample-divider"></div>
+          <p>
+            «No he pecado <em>todavía</em>.»<br>
+            «Pero he sido pecado.»<br>
+            «¿Es lo mismo?»<br>
+            <em>[pausa]</em><br>
+            «No tengo nada. Pero tengo todo. Y no sé cuál de las dos cosas es peor.»
+          </p>
+          <div class="sample-divider"></div>
+          <p>
+            Nunca confesión formal. Nunca un pecado concreto. Solo aquellas cinco frases, en aquel orden, con aquellas pausas. Y una certeza que no me abandona: algo está esperando. Y no sé qué es. Y no sé cuándo llegará. Y ya no puedo dejar de escuchar.
+          </p>
+          <span class="sample-attribution">— Testimonio del padre Sebastián Aguirre, capellán. 1932.</span>
+        </div>
+      </div>
+      <div class="sample-cta-block reveal">
+        <div class="sample-cta-label">Acceso al archivo</div>
+        <div class="sample-cta-price">USD 5.90</div>
+        <div class="sample-cta-note">Descarga inmediata · EPUB + PDF · Lectura en cualquier dispositivo</div>
+        <a href="#price" class="btn-primary" style="display:block; text-align:center; max-width:280px;">
+          Quiero el volumen completo
+        </a>
+        <div style="margin-top: 20px;">
+          <a href="#contenido" class="btn-ghost" style="display:block; text-align:center; max-width:280px;">
+            Ver todos los relatos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOR WHOM ── -->
+<section class="section-pad" id="para-quien">
+  <div class="container" style="max-width: 720px;">
+    <span class="eyebrow reveal">Para quién es</span>
+    <h2 class="section-title reveal">Este archivo no es para todos.<br>Y no pretende serlo.</h2>
+    <p class="hero-desc reveal" style="margin-bottom: 32px; max-width: 580px;">
+      Está hecho para lectores atraídos por documentos vedados, conventos con secretos, misterio religioso, ficción sobria y relatos que se sienten demasiado cercanos a algo que podría haber sobrevivido en papel.
+    </p>
+    <ul class="for-whom-list">
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">
+          Para quienes prefieren atmósfera antes que sobresalto fácil.
+        </span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">
+          Para quienes disfrutan la ficción con tono serio y documental.
+        </span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">
+          Para quienes quieren una lectura distinta a un ebook genérico.
+        </span>
+      </li>
+      <li class="for-whom-item reveal">
+        <span class="for-whom-bullet"></span>
+        <span class="for-whom-text">
+          Para quienes entienden que a veces lo peor no es lo que se muestra, sino lo que nadie quiere explicar.
+        </span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── WHAT YOU GET ── -->
+<section class="section-pad" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);" id="que-recibes">
+  <div class="container">
+    <span class="eyebrow reveal">Tu compra</span>
+    <h2 class="section-title reveal">Qué recibís exactamente</h2>
+    <div class="get-grid">
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Ebook completo en EPUB</div>
+          <div class="get-desc">Compatible con cualquier lector digital, teléfono, tablet o computadora.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Ebook completo en PDF</div>
+          <div class="get-desc">Para leer en tu computadora, imprimirlo o mantenerlo como archivo.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Más de 40.000 palabras de lectura</div>
+          <div class="get-desc">Un volumen corto-premium con suficiente cuerpo como para sentirse como una lectura completa.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Acceso inmediato</div>
+          <div class="get-desc">Recibís el enlace de descarga después de la compra. Sin esperas.</div>
+        </div>
+      </div>
+      <div class="get-item reveal" style="grid-column: 1 / -1;">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div>
+          <div class="get-title">Volumen 1 de una serie en expansión</div>
+          <div class="get-desc">No es una muestra ni un texto breve improvisado. Es un volumen completo, pensado para leerse como experiencia cerrada y, al mismo tiempo, como la apertura de un archivo mayor.</div>
+        </div>
+      </div>
+      <p class="hero-desc reveal" style="margin-top: 32px; max-width: 580px; margin-left: 0;">
+        No es una muestra ni un texto breve improvisado. Es un volumen completo, pensado para leerse como una experiencia cerrada y, al mismo tiempo, como la apertura de un archivo mayor.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICE BLOCK ── -->
+<section class="section-pad" id="price">
+  <div class="container">
+    <div class="price-block reveal">
+      <span class="price-block-eyebrow">Tu acceso al archivo</span>
+      <h2 class="price-block-title">Los Archivos del Silencio — Vol. 1</h2>
+      <p class="price-block-sub">
+        Volumen 1 completo. Siete testimonios conectados. Una lectura diseñada para sentirse como un expediente abierto demasiado tarde.
+      </p>
+      <div class="price-display">
+        <span class="price-amount">
+          <span class="price-currency">USD</span>5.90
+        </span>
+      </div>
+      <div class="price-note">Pago único · Sin suscripción · Entrega automática</div>
+      <div class="price-features">
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          EPUB + PDF
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Descarga inmediata
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Lectura en cualquier dispositivo
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          +40.000 palabras
+        </span>
+      </div>
+      <a href="#" class="btn-primary" style="font-size:0.85rem; padding:18px 56px;" onclick="alert('Aquí iría el enlace a la plataforma de pago.'); return false;">
+        Comprar ahora — USD 5.90
+      </a>
+      <div style="margin-top: 16px; font-size: 0.72rem; color: var(--text-muted);">
+        Pago seguro · Entrega automática
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section-pad" style="background:var(--surface); border-top:1px solid var(--border);" id="faq">
+  <div class="container" style="max-width: 720px;">
+    <span class="eyebrow reveal">Preguntas frecuentes</span>
+    <h2 class="section-title reveal">Antes de entrar al archivo</h2>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Es un libro físico o un ebook?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Es un ebook digital. No hay envío físico. Recibís acceso inmediato para leerlo en tus dispositivos.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Es una historia real?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Es una obra presentada con tratamiento documental y marco de archivo intervenido editorialmente. Algunos nombres, lugares y detalles fueron alterados por discreción. La experiencia está construida para leerse como material sensible, no como una ficción convencional.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿En qué formato lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lo recibís en EPUB y PDF, para que puedas leerlo en celular, tablet o computadora.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Cuándo lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          El acceso es inmediato después de la compra.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Necesito Kindle o algo especial para leerlo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          No. Podés leerlo en cualquier dispositivo compatible con EPUB o PDF.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Cuánto dura la lectura?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Es un volumen corto-premium, pero con suficiente cuerpo como para sentirse como una lectura completa, no como un extracto.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Habrá más volúmenes?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sí. Este es el Volumen 1 del archivo.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-question-text">¿Está en español?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Sí. El ebook está íntegramente en español.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section class="closing" id="cierre">
+  <div class="container">
+    <span class="closing-label reveal">El archivo espera.</span>
+    <blockquote class="closing-quote reveal">
+      «Lo que no tiene nombre sigue esperando.<br>Y a veces, lo que espera, termina entrando.»
+    </blockquote>
+    <a href="#price" class="btn-primary reveal" style="font-size:0.8rem; padding:16px 48px;">
+      Entrar al archivo — USD 5.90
+    </a>
+    <p class="footer-disclaimer" style="margin-top: 24px; opacity: 1; font-style: normal;">
+      Archivo intervenido editorialmente · Descarga inmediata
+    </p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <p class="footer-text">
+      Los Archivos del Silencio — Vol. 1<br>
+      Archivo intervenido por discreción editorial<br>
+      © Del autor
+    </p>
+    <p class="footer-disclaimer">
+      Este es un producto digital. Los nombres, lugares y circunstancias han sido alterados<br>
+      por discreción editorial. La frontera entre archivo y ficción queda abierta.
+    </p>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ── -->
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // FAQ toggle
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    // Open clicked if it wasn't open
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>

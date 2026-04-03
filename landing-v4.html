@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Los Archivos del Silencio — Vol. 1</title>
+  <meta name="description" content="Siete testimonios vedados al público." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:     #f7f4ed;
+      --paper2:    #eee9df;
+      --ink:       #1c1917;
+      --ink-light: #57534e;
+      --ink-faint: #a8a29e;
+      --red:       #b91c1c;
+      --red-light: #ef4444;
+      --rule:      #d6d3cd;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--ink); color: var(--paper); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--paper2); }
+    ::-webkit-scrollbar-thumb { background: var(--ink-faint); }
+
+    /* ── Utilities ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+    .center { text-align: center; }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════
+       HEADER / FILE COVER
+    ═══════════════════════════════════════ */
+    .file-header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 48px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .file-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+    }
+    .file-stamp {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      display: inline-block;
+      border: 1px solid var(--red-light);
+      padding: 4px 10px;
+      margin-bottom: 24px;
+    }
+    .file-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .file-subtitle {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink-faint);
+      margin-bottom: 24px;
+    }
+    .file-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+    }
+    .file-meta-item {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(247,244,237,0.45);
+      padding-right: 24px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      margin-right: 24px;
+    }
+    .file-meta-item:last-child { border: none; }
+
+    /* File nav */
+    .file-nav {
+      background: var(--paper2);
+      border-bottom: 1px solid var(--rule);
+      padding: 12px 0;
+    }
+    .file-nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .file-nav-logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+    }
+    .file-nav-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      border: 1px solid var(--red);
+      padding: 6px 14px;
+      transition: all 0.2s;
+    }
+    .file-nav-link:hover { background: var(--red); color: white; }
+
+    /* ═══════════════════════════════════════
+       HERO / PRODUCT INTRO
+    ═══════════════════════════════════════ */
+    .intro {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .intro-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .intro-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .intro-body {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .intro-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+    .intro-price-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .intro-price {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .intro-price-note {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      margin-bottom: 24px;
+    }
+    .intro-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 320px;
+    }
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 16px 24px;
+      text-align: center;
+      text-decoration: none;
+      border: 2px solid var(--ink);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--red); border-color: var(--red); }
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      text-align: center;
+      text-decoration: none;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--ink); }
+
+    /* ═══════════════════════════════════════
+       QUOTE BLOCK
+    ═══════════════════════════════════════ */
+    .quote-section {
+      background: var(--paper2);
+      padding: 56px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .quote-block {
+      border-left: 3px solid var(--red);
+      padding-left: 24px;
+    }
+    .quote-text {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 4vw, 1.3rem);
+      color: var(--ink);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .quote-attr {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION GENERIC
+    ═══════════════════════════════════════ */
+    .section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .section-dark {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 64px 0;
+      border-bottom: 3px solid var(--red);
+    }
+    .section-dark .intro-body,
+    .section-dark .section-body { color: var(--ink-faint); }
+
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .section-dark .section-label { color: var(--red-light); }
+    .section-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(1.4rem, 5vw, 1.9rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-dark .section-title { color: var(--paper); }
+    .section-body {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+    }
+
+    /* ── Stats / archivo grid ── */
+    .archivo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      margin-top: 40px;
+    }
+    .archivo-item {
+      background: var(--paper);
+      padding: 24px 20px;
+    }
+    .archivo-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--ink-faint);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .archivo-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
+    }
+    .archivo-desc {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+    }
+
+    /* ── Redacted block ── */
+    .redacted-box {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 32px 24px;
+      margin-top: 32px;
+    }
+    .redacted-head {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .redacted-text {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+    .redacted-line {
+      display: inline;
+      background: var(--ink);
+      color: var(--ink);
+      padding: 0 8px;
+      cursor: help;
+      transition: background 0.3s;
+    }
+    .redacted-line:hover { background: var(--red); color: white; }
+
+    /* ── Differential ── */
+    .diff-list {
+      margin-top: 36px;
+      border-top: 1px solid var(--rule);
+    }
+    .diff-item {
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0;
+    }
+    .diff-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .diff-body {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    /* ── Stories list ── */
+    .stories-list {
+      margin-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+    .story-item {
+      border-bottom: 1px solid var(--rule);
+      padding: 24px 0;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .story-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--ink-faint);
+      padding-top: 3px;
+    }
+    .story-content {}
+    .story-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .story-hook {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+
+    /* ── Sample ── */
+    .sample-section {
+      background: var(--paper2);
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .sample-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .sample-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .sample-quote {
+      border-left: 2px solid var(--red);
+      padding-left: 16px;
+      margin-bottom: 20px;
+    }
+    .sample-quote-text {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 4px;
+    }
+    .sample-attr {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+    }
+    .sample-intro {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .sample-cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 320px;
+    }
+    .sample-price {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .sample-price-note {
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+      margin-bottom: 16px;
+    }
+
+    /* ── Para quién ── */
+    .for-list {
+      list-style: none;
+      margin-top: 36px;
+      border-top: 1px solid var(--rule);
+    }
+    .for-item {
+      border-bottom: 1px solid var(--rule);
+      padding: 18px 0;
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+    }
+    .for-mark {
+      width: 4px;
+      height: 4px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .for-text {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    /* ── Qué recibís ── */
+    .get-list {
+      margin-top: 36px;
+      border-top: 1px solid var(--rule);
+    }
+    .get-item {
+      border-bottom: 1px solid var(--rule);
+      padding: 18px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .get-icon {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .get-icon svg { width: 11px; height: 11px; stroke: var(--red); fill: none; }
+    .get-content {}
+    .get-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .get-desc { font-size: 0.78rem; color: var(--ink-faint); line-height: 1.55; }
+
+    /* ── Price ── */
+    .price-section {
+      padding: 64px 0;
+      background: var(--paper2);
+      border-bottom: 1px solid var(--rule);
+    }
+    .price-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 40px 28px;
+      text-align: center;
+    }
+    .price-card::before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--red);
+      margin: 0 auto 24px;
+    }
+    .price-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .price-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .price-sub {
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .price-amount {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .price-currency {
+      font-size: 1rem;
+      color: var(--ink-faint);
+      vertical-align: super;
+      margin-right: 2px;
+    }
+    .price-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 28px;
+    }
+    .price-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .price-feature {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .price-feature svg { width: 12px; height: 12px; stroke: var(--red); fill: none; }
+    .price-cta-wrap { margin-top: 8px; }
+    .price-micro {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      margin-top: 12px;
+    }
+
+    /* ── FAQ ── */
+    .faq-section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--rule);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      gap: 16px;
+    }
+    .faq-q {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .faq-plus {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .faq-plus::before,
+    .faq-plus::after {
+      content: '';
+      position: absolute;
+      background: var(--red);
+      transition: transform 0.25s;
+    }
+    .faq-plus::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq-plus::after  { width: 1px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+    .faq-item.open .faq-plus::after { transform: translateX(-50%) rotate(90deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-ans-in {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      padding-bottom: 20px;
+    }
+
+    /* ── Closing ── */
+    .closing {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .closing-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .closing-quote {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      color: var(--ink);
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+    .closing-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 320px;
+      margin: 0 auto 16px;
+    }
+    .closing-micro {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--ink);
+      padding: 40px 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(247,244,237,0.35);
+      line-height: 2;
+    }
+    .footer-disclaimer {
+      font-size: 0.7rem;
+      font-style: italic;
+      color: rgba(247,244,237,0.2);
+      margin-top: 8px;
+    }
+
+    /* ─── DESKTOP ─── */
+    @media (min-width: 768px) {
+      .container { max-width: 1040px; padding: 0 40px; }
+
+      /* Header */
+      .file-header { padding: 64px 0 56px; }
+      .file-meta { gap: 0; }
+
+      /* Intro two-col */
+      .intro-inner {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 60px;
+        align-items: start;
+      }
+      .intro-book { order: 2; }
+
+      /* Stats 4-col */
+      .archivo-grid { grid-template-columns: repeat(4, 1fr); }
+
+      /* Stories 2-col */
+      .stories-list { border-top: none; }
+      .story-item { grid-template-columns: 40px 1fr; }
+
+      /* Sample two-col */
+      .sample-inner {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: 60px;
+        align-items: start;
+      }
+      .sample-cta-stack { margin-top: 0; }
+
+      /* Price */
+      .price-card { padding: 56px 48px; }
+      .price-features { flex-direction: row; justify-content: center; gap: 16px 32px; flex-wrap: wrap; }
+
+      /* Get list 2-col */
+      .get-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 40px;
+        border-top: none;
+      }
+      .get-item { border: none; padding: 16px 0; }
+      .get-list .get-item:last-child { grid-column: 1 / -1; }
+    }
+
+    /* Book mockup — desktop only */
+    .intro-book { display: none; }
+    @media (min-width: 768px) {
+      .intro-book {
+        display: block;
+      }
+      .book-card {
+        background: var(--paper2);
+        border: 1px solid var(--rule);
+        padding: 28px 24px;
+        position: relative;
+      }
+      .book-card::before {
+        content: '';
+        position: absolute;
+        inset: 6px;
+        border: 1px solid var(--rule);
+        pointer-events: none;
+      }
+      .book-cat {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.5rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 12px;
+      }
+      .book-title {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+      .book-vol {
+        font-family: 'Libre Baskerville', serif;
+        font-style: italic;
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+        margin-bottom: 12px;
+      }
+      .book-rule {
+        width: 30px;
+        height: 1px;
+        background: var(--red);
+        margin: 12px 0;
+      }
+      .book-desc {
+        font-size: 0.72rem;
+        color: var(--ink-faint);
+        line-height: 1.65;
+      }
+      .book-stamp {
+        position: absolute;
+        top: -8px;
+        right: 16px;
+        background: var(--red);
+        color: white;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.45rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        padding: 4px 10px;
+        transform: rotate(3deg);
+      }
+      .book-file-num {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.52rem;
+        letter-spacing: 0.12em;
+        color: var(--ink-faint);
+        margin-top: 16px;
+        text-transform: uppercase;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── FILE HEADER ── -->
+<header class="file-header">
+  <div class="container">
+    <div class="file-stamp">Expediente clasificado — volumen i</div>
+    <h1 class="file-title">Los Archivos<br>del Silencio</h1>
+    <p class="file-subtitle">Testimonios vedados al público</p>
+    <div class="file-meta">
+      <span class="file-meta-item">Archivo N.° 19</span>
+      <span class="file-meta-item">Legajo: 1952-A</span>
+      <span class="file-meta-item">7 testimonios</span>
+      <span class="file-meta-item">+40.000 palabras</span>
+      <span class="file-meta-item">Intervenido por discreción</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── FILE NAV ── -->
+<div class="file-nav">
+  <div class="container">
+    <div class="file-nav-inner">
+      <a href="#" class="file-nav-logo">Archivos del Silencio</a>
+      <a href="#price" class="file-nav-link">Obtener — USD 5.90</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="container">
+    <div class="intro-inner">
+      <div>
+        <p class="intro-label">Descripción del expediente</p>
+        <h2 class="intro-title">Esto no se presenta como un libro. Se presenta como un archivo.</h2>
+        <p class="intro-body">
+          Los documentos de este volumen fueron reunidos como si alguien hubiera intentado conservar algo que nunca debió explicarse del todo. Testimonios, notas, transcripciones y fragmentos atribuidos a un archivo conventual, intervenidos solo donde la discreción editorial lo vuelve necesario.
+        </p>
+        <p class="intro-body" style="margin-top:-8px;">
+          No estás entrando a una colección de cuentos. Estás entrando a un expediente de voces, silencios y hechos que nadie quiso dejar del todo en claro.
+        </p>
+        <div class="intro-price-row">
+          <span class="intro-price-label">Precio del expediente</span>
+          <span class="intro-price">USD 5.90</span>
+        </div>
+        <p class="intro-price-note">Acceso inmediato · EPUB + PDF · Lectura en cualquier dispositivo</p>
+        <div class="intro-stack">
+          <a href="#price" class="btn-primary">Solicitar acceso al archivo</a>
+          <a href="#sample" class="btn-secondary">Leer fragmento</a>
+        </div>
+      </div>
+      <div class="intro-book">
+        <div class="book-card">
+          <div class="book-stamp">SECRETO</div>
+          <div class="book-cat">Archivo reservado</div>
+          <div class="book-title">Los Archivos<br>del Silencio</div>
+          <div class="book-vol">Volumen I</div>
+          <div class="book-rule"></div>
+          <div class="book-desc">
+            Testimonios vedados al público<br>
+            <em style="color:var(--ink-faint);">DOMINICAS DE LA SANTA CRUZ</em>
+          </div>
+          <div class="book-file-num">EXPEDIENTE N.° 19 — 1952</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<div class="quote-section">
+  <div class="container">
+    <div class="quote-block reveal">
+      <p class="quote-text">«Lo que aquí se conserva no fue escrito para circular.»</p>
+      <p class="quote-attr">— Nota hallada entre los documentos del archivo, 1952</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── EL ARCHIVO ── -->
+<section class="section">
+  <div class="container">
+    <p class="section-label reveal">El archivo</p>
+    <h2 class="section-title reveal">Datos del expediente</h2>
+    <div class="archivo-grid">
+      <div class="archivo-item reveal">
+        <div class="archivo-num">1487</div>
+        <div class="archivo-label">Origen</div>
+        <div class="archivo-desc">Los primeros documentos comenzaron a reunirse el año en que se fundó el convento.</div>
+      </div>
+      <div class="archivo-item reveal">
+        <div class="archivo-num">1952</div>
+        <div class="archivo-label">El hallazgo</div>
+        <div class="archivo-desc">Una caja de hierro oculta tras un tabique. Papeles, notas y transcripciones.</div>
+      </div>
+      <div class="archivo-item reveal">
+        <div class="archivo-num">19</div>
+        <div class="archivo-label">La celda</div>
+        <div class="archivo-desc">Aparece una y otra vez. No siempre con el mismo nombre. Nunca con explicación suficiente.</div>
+      </div>
+      <div class="archivo-item reveal">
+        <div class="archivo-num">7</div>
+        <div class="archivo-label">Testimonios</div>
+        <div class="archivo-desc">Siete voces. Siete versiones. Algunos textos son confesiones, otros cartas, otros notas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VEROSIMILITUD ── -->
+<div class="section-dark">
+  <div class="container">
+    <p class="section-label reveal">Estado del material</p>
+    <h2 class="section-title reveal">Intervenido por discreción.<br>Conservado por necesidad.</h2>
+    <p class="section-body reveal">
+      Los nombres, lugares y algunos detalles identificatorios de este volumen han sido alterados por <span class="redacted-line">████████████████████████</span> discreción editorial. El resto fue trabajado para conservar el tono, la estructura y la incomodidad de los documentos atribuidos al archivo.
+    </p>
+    <div class="redacted-box reveal">
+      <p class="redacted-head">Nota editorial</p>
+      <p class="redacted-text">No fue escrito para parecer ficción. Fue escrito para leerse como material que no debía circular.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── DIFERENCIAL ── -->
+<section class="section">
+  <div class="container">
+    <p class="section-label reveal">Naturaleza del documento</p>
+    <h2 class="section-title reveal">No son siete cuentos sueltos.<br>Es un mismo archivo abriéndose.</h2>
+    <p class="section-body reveal">
+      La mayoría de los ebooks de este género reúne relatos independientes bajo una misma portada. Este no. Los Archivos del Silencio fue pensado para leerse como un volumen conectado: cada testimonio deja una pista, cada nota abre una grieta, y cada documento empuja al lector un poco más adentro.
+    </p>
+    <div class="diff-list">
+      <div class="diff-item reveal">
+        <div class="diff-title">Estructura de archivo</div>
+        <div class="diff-body">Cada testimonio tiene forma, fecha y voz propia.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-title">Lectura acumulativa</div>
+        <div class="diff-body">Lo que un relato insinúa, otro lo profundiza.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-title">Tono documental</div>
+        <div class="diff-body">Menos artificio, más inquietud.</div>
+      </div>
+      <div class="diff-item reveal">
+        <div class="diff-title">Volumen 1</div>
+        <div class="diff-body">Una experiencia cerrada que también abre una serie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORIES ── -->
+<section class="section" id="contenido">
+  <div class="container">
+    <p class="section-label reveal">Contenido del expediente</p>
+    <h2 class="section-title reveal">Siete testimonios.<br>Una misma sombra.</h2>
+    <p class="section-body reveal">Cada testimonio abre una puerta distinta. Ninguna se cierra del todo.</p>
+    <div class="stories-list">
+      <div class="story-item reveal">
+        <span class="story-num">01</span>
+        <div class="story-content">
+          <div class="story-title">La carta que nunca llegó al Santo Padre</div>
+          <div class="story-hook">Una carta enviada siete veces. Siete veces devuelta. Y nadie quiso explicar por qué.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">02</span>
+        <div class="story-content">
+          <div class="story-title">El confesor de la celda 19</div>
+          <div class="story-hook">Un preso repite durante semanas la misma frase. Cuando por fin deciden escucharlo, el cuerpo ya estaba frío.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">03</span>
+        <div class="story-content">
+          <div class="story-title">La monja sin registro</div>
+          <div class="story-hook">Una mujer vivió décadas dentro del convento. Nadie pudo encontrar su nombre en ningún libro.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">04</span>
+        <div class="story-content">
+          <div class="story-title">La llave de la biblioteca inferior</div>
+          <div class="story-hook">Una llave sin inventario. Una puerta tapiada. Un libro que siguió recibiendo visitas mucho después de haber sido sellado.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">05</span>
+        <div class="story-content">
+          <div class="story-title">El niño del milagro incompleto</div>
+          <div class="story-hook">Un niño pidió devolver a su hermana de la muerte. Lo consigue. Pero no vuelve lo que esperaba.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">06</span>
+        <div class="story-content">
+          <div class="story-title">El responso que nadie pidió</div>
+          <div class="story-hook">Una campana declarada muda siguió llamando de madrugada. Nadie admitió haberla oído.</div>
+        </div>
+      </div>
+      <div class="story-item reveal">
+        <span class="story-num">07</span>
+        <div class="story-content">
+          <div class="story-title">Los nombres borrados del libro rojo</div>
+          <div class="story-hook">En un libro prohibido aparecen nombres destinados a desaparecer. Algunos ya fueron borrados. Uno todavía no.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SAMPLE ── -->
+<div class="sample-section" id="sample">
+  <div class="container">
+    <div class="sample-inner">
+      <div>
+        <p class="sample-label reveal">Fragmento — Relato 2</p>
+        <h3 class="sample-title reveal">Leé un fragmento antes de solicitar el expediente</h3>
+        <p class="sample-intro reveal">No hace falta leer mucho para entender el tono del archivo. Solo lo suficiente como para saber que vas a seguir.</p>
+        <div class="sample-quote reveal">
+          <p class="sample-quote-text">
+            «No he pecado <em>todavía</em>.»<br>
+            «Pero he sido pecado.»<br>
+            «¿Es lo mismo?»<br>
+            <span style="color:var(--ink-faint);">—</span><br>
+            «No tengo nada. Pero tengo todo. Y no sé cuál de las dos cosas es peor.»
+          </p>
+          <p class="sample-attr">— Fray Sebastián Aguirre, capellán. 1932.</p>
+        </div>
+        <p class="sample-intro reveal" style="margin-bottom:0;">
+          Nunca confesión formal. Nunca un pecado concreto. Solo aquellas cinco frases. Y una certeza: algo está esperando. Y ya no puedo dejar de escuchar.
+        </p>
+      </div>
+      <div class="sample-cta-stack reveal">
+        <div class="sample-price">USD 5.90</div>
+        <div class="sample-price-note">Acceso inmediato · EPUB + PDF</div>
+        <a href="#price" class="btn-primary">Solicitar acceso</a>
+        <a href="#contenido" class="btn-secondary">Ver todos los testimonios</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PARA QUIÉN ── -->
+<section class="section" id="para-quien">
+  <div class="container">
+    <p class="section-label reveal">Destinatarios sugeridos</p>
+    <h2 class="section-title reveal">Este archivo no es para todos.<br>Y no pretende serlo.</h2>
+    <p class="section-body reveal">
+      Está hecho para lectores atraídos por documentos vedados, conventos con secretos, misterio religioso, ficción sobria y relatos que se sienten demasiado cercanos a algo que podría haber sobrevivido en papel.
+    </p>
+    <ul class="for-list">
+      <li class="for-item reveal">
+        <span class="for-mark"></span>
+        <span class="for-text">Para quienes prefieren atmósfera antes que sobresalto fácil.</span>
+      </li>
+      <li class="for-item reveal">
+        <span class="for-mark"></span>
+        <span class="for-text">Para quienes disfrutan la ficción con tono serio y documental.</span>
+      </li>
+      <li class="for-item reveal">
+        <span class="for-mark"></span>
+        <span class="for-text">Para quienes quieren una lectura distinta a un ebook genérico.</span>
+      </li>
+      <li class="for-item reveal">
+        <span class="for-mark"></span>
+        <span class="for-text">Para quienes entienden que a veces lo peor no es lo que se muestra, sino lo que nadie quiere explicar.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── QUÉ RECIBÍS ── -->
+<section class="section">
+  <div class="container">
+    <p class="section-label reveal">Alcance de la entrega</p>
+    <h2 class="section-title reveal">Qué recibís exactamente</h2>
+    <div class="get-list">
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="get-content">
+          <div class="get-title">Ebook en EPUB</div>
+          <div class="get-desc">Compatible con cualquier lector digital, teléfono o tablet.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="get-content">
+          <div class="get-title">Ebook en PDF</div>
+          <div class="get-desc">Para leer en tu computadora o imprimir si preferís.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="get-content">
+          <div class="get-title">+40.000 palabras</div>
+          <div class="get-desc">Volumen corto-premium con cuerpo de lectura completa.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="get-content">
+          <div class="get-title">Acceso inmediato</div>
+          <div class="get-desc">Enlaces de descarga después de la compra. Sin esperas.</div>
+        </div>
+      </div>
+      <div class="get-item reveal">
+        <div class="get-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="get-content">
+          <div class="get-title">Volumen 1 de una serie</div>
+          <div class="get-desc">No es una muestra ni un texto improvisado. Es un volumen completo que abre un archivo mayor.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRECIO ── -->
+<div class="price-section" id="price">
+  <div class="container">
+    <div class="price-card reveal">
+      <p class="price-eyebrow">Solicitar acceso al archivo</p>
+      <h3 class="price-title">Los Archivos del Silencio — Vol. 1</h3>
+      <p class="price-sub">
+        Volumen 1 completo. Siete testimonios conectados. Una lectura diseñada para sentirse como un expediente abierto demasiado tarde.
+      </p>
+      <div class="price-amount"><span class="price-currency">USD</span>5.90</div>
+      <p class="price-note">Pago único · Sin suscripción · Entrega automática</p>
+      <div class="price-features">
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          EPUB + PDF
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Descarga inmediata
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Cualquier dispositivo
+        </span>
+        <span class="price-feature">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          +40.000 palabras
+        </span>
+      </div>
+      <div class="price-cta-wrap">
+        <a href="#" class="btn-primary" style="display:inline-block; width:auto; padding:16px 48px; font-size:0.75rem;" onclick="alert('Aquí va el enlace de pago.'); return false;">
+          Comprar ahora — USD 5.90
+        </a>
+      </div>
+      <p class="price-micro">Pago seguro · Procesado automáticamente · Entrega inmediata</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAQ ── -->
+<div class="faq-section" id="faq">
+  <div class="container">
+    <p class="section-label reveal">Preguntas frecuentes</p>
+    <h2 class="section-title reveal">Antes de solicitar acceso</h2>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Es un libro físico o un ebook?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">Es un ebook digital. No hay envío físico. Recibís acceso inmediato para leerlo en tus dispositivos.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Es una historia real?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">Es una obra presentada con tratamiento documental y marco de archivo intervenido editorialmente. Algunos nombres, lugares y detalles fueron alterados por discreción. La experiencia está construida para leerse como material sensible, no como una ficción convencional.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿En qué formato lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">Lo recibís en EPUB y PDF. Ambos incluidos para que elijas el que prefieras.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Cuándo lo recibo?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">El acceso es inmediato después de la compra.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Necesito Kindle?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">No. Podés leerlo en cualquier dispositivo compatible con EPUB o PDF.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Cuánto dura la lectura?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">+40.000 palabras. Suficiente cuerpo como para sentirse como una lectura completa, no como un extracto.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Habrá más volúmenes?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">Sí. Este es el Volumen 1 del archivo.</div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <button class="faq-question">
+        <span class="faq-q">¿Está en español?</span>
+        <span class="faq-plus"></span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-ans-in">Sí. El ebook está íntegramente en español.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CIERRE ── -->
+<div class="closing">
+  <div class="container">
+    <p class="closing-label reveal">El archivo espera.</p>
+    <p class="closing-quote reveal">
+      «Lo que no tiene nombre sigue esperando.<br>Y a veces, lo que espera, termina entrando.»
+    </p>
+    <div class="closing-stack reveal">
+      <a href="#price" class="btn-primary">Solicitar acceso — USD 5.90</a>
+    </div>
+    <p class="closing-micro reveal">Archivo intervenido editorialmente · Descarga inmediata</p>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <p class="footer-text">
+      Los Archivos del Silencio — Vol. 1<br>
+      Archivo intervenido por discreción editorial<br>
+      Expediente N.° 19 — Legajo 1952-A<br>
+      © Del autor
+    </p>
+    <p class="footer-disclaimer">
+      Los nombres, lugares y circunstancias han sido alterados por discreción editorial.<br>
+      La frontera entre archivo y ficción queda abierta.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 50);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // FAQ
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
